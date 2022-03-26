@@ -2,9 +2,9 @@ import { ColorResolvable, EmojiResolvable, UserResolvable } from "discord.js";
 import { CurrencyType } from "./docs/currency/Main";
 
 // ---------------------- TOKEN ----------------------
-export const TOKEN: string = "OTUwNzY1MjI1MzI4NjUyMjk4.YidrHg.vaoLZ-XTw8pHNgmzpSu66bE17cw"
+export const TOKEN: string = ""
 // ---------------------- MONGO URI ----------------------
-export const MONGO: string = "mongodb+srv://DannTest:099075020@botdiscord.hkvvx.mongodb.net/farmmania"
+export const MONGO: string = ""
 // ---------------------- EMAIL ----------------------
 export const EMAIL: string = "farmania@inbox.ru";
 // ---------------------- END ----------------------
@@ -99,4 +99,4 @@ export const CREDITS: {amount: number, onDollars: number}[] = [ // buy dollars w
     }
 ].reverse();
 
-export const CLIENT_USER_AVATAR_URI: string = "https://cdn.discordapp.com/attachments/957192630700224522/957192704859717632/avatar.jpg";
+export const CLIENT_USER_AVATAR_URI: string = "https://cdn.discordapp.com/attachments/957192630700224522/957270591868633139/avatar.jpg";
