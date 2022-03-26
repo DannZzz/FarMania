@@ -18,7 +18,8 @@ export default class Slots extends MessageCommand {
     constructor() {
         super({
             name: "slots",
-            description: "lol"
+            description: "lol",
+            private: true
         })
     }
 
