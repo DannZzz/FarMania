@@ -31,7 +31,7 @@ export default class addCoins extends MessageCommand {
         if (!args[2] || isNaN(+args[2])) return Embed(msg).setError('Укажите количество бабла!').send(DELETE_TIMEOUT_MESSAGES);
         const reward = Math.round(+args[2]);
         var maxCount: number = null
-        if (args[3] && isNaN(+args[3])) maxCount = Math.round(+args[3]);
+        if (args[3] && !isNaN(+args[3])) maxCount = Math.round(+args[3]);
         var validDate: Date = null;
         if (args[4] && ms(args[4])) validDate = new Date(Date.now() + ms(args[4]));
         const data = new RedeemCode(code, type, reward, maxCount, validDate);
