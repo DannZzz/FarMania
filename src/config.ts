@@ -15,7 +15,7 @@ export const DEVELOPER_ID: UserResolvable = "382906068319076372";
 // ---------------------- SETTINGS ----------------------
 export const COST_TO_ADD_FOR_EACH_LEVEL: number = 600; // Space 1 level cost
 export const SPACE_FOR_ONE_LEVEL: number = 50; // adding space per level
-export const MAIN_COLLECTOR_TIME: number = 3 * 60 * 1000; // menu collector time
+export const MAIN_COLLECTOR_TIME: number = 35 * 1000; // menu collector time
 
 export const BUY_ANIMALS_X: number[] = [1] // how many animals can be bought at once
 
