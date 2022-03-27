@@ -2,9 +2,9 @@ import { ColorResolvable, EmojiResolvable, UserResolvable } from "discord.js";
 import { CurrencyType } from "./docs/currency/Main";
 
 // ---------------------- TOKEN ----------------------
-export const TOKEN: string = ""
+export const TOKEN: string = "OTU3NjA5MDM1NTM5MDMwMDY2.YkBQ6Q.EVwqLQl735Ie1pkG2GEZoXUJVoU"
 // ---------------------- MONGO URI ----------------------
-export const MONGO: string = ""
+export const MONGO: string = "mongodb+srv://DannTest:099075020@botdiscord.hkvvx.mongodb.net/farmmania"
 // ---------------------- EMAIL ----------------------
 export const EMAIL: string = "farmania@inbox.ru";
 // ---------------------- END ----------------------
@@ -17,7 +17,7 @@ export const COST_TO_ADD_FOR_EACH_LEVEL: number = 600; // Space 1 level cost
 export const SPACE_FOR_ONE_LEVEL: number = 50; // adding space per level
 export const MAIN_COLLECTOR_TIME: number = 35 * 1000; // menu collector time
 
-export const BUY_ANIMALS_X: number[] = [1] // how many animals can be bought at once
+export const BUY_ANIMALS_X: number[] = [1, 10] // how many animals can be bought at once
 
 export const TIME_TO_CHANGE_PARAMETER: number = 30 * 1000; // server settings changing collector's time
 
@@ -31,7 +31,7 @@ export const ERROR_EMOJI: EmojiResolvable = "<:cancel1:926005208176271422>"; // 
 export const SUCCESS_EMOJI: EmojiResolvable = "<:checked:926005208335663124>"; // success emoji
 export const PAGINATION_EMOJIS: EmojiResolvable[] = ["⏮", "⏪", "⏩", "⏭"]; // pagination emojis
 
-export const PREFIX: string = "!"; // default prefix
+export const PREFIX: string = ""; // default prefix
 export const colors: {[k: string]: ColorResolvable} = { // colors
     main: "WHITE",
     error: "#FF5440",
@@ -44,7 +44,7 @@ export const SLOTS_DEFAULT_JACKPOT: number = 200;
 export const MathGameCollectorTime: number = 5000;
 
 export const DailyGiftsAdding = { // daily gifts default
-    coins: 1500,
+    coins: 3500,
     mega: 10,
     megaAfterDays: 5,
     chips: 5
@@ -86,17 +86,15 @@ export const COINS_TO_DOLLARS: {amount: number, cost: number}[] = [ // buy coins
 
 export const CREDITS: {amount: number, onDollars: number}[] = [ // buy dollars with real money
     {
-        amount: 30,
+        amount: 50,
         onDollars: 1
     },
     {
-        amount: 100,
+        amount: 200,
         onDollars: 3
     },
     {
-        amount: 500,
+        amount: 850,
         onDollars: 10
     }
 ].reverse();
-
-export const CLIENT_USER_AVATAR_URI: string = "https://cdn.discordapp.com/attachments/957192630700224522/957270591868633139/avatar.jpg";

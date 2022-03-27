@@ -115,7 +115,7 @@ export async function jackpotString(client: Client, lang: Languages) {
     var last = "";
     if (d.lastWinner) {
         const user = await client.users.fetch(d.lastWinner);
-        last = `\n👑 **${user ? user.tag : TextExp(57, lang)}** ${TextExp(104, lang)} ${Currency.dollars.emoji}\`${client.util.formatNumber(d.lastWinningJackpot || SLOTS_DEFAULT_JACKPOT)}\``
+        last = `\n👑 **${user ? user.tag : TextExp(57, lang)}** ${TextExp(104, lang)} ${Currency.dollars.emoji}\`${client.util.formatNumber(d.lastWinningJackpot || SLOTS_DEFAULT_JACKPOT)}\` **x${d.winningLines || 1}**`
     }
     
     return `${TextExp(102, lang)} ${TextExp(97, lang)}: ${Currency.dollars.emoji}\`${client.util.formatNumber(d.slotJackpot)}\`${last}`
