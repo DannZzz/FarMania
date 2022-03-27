@@ -9,7 +9,7 @@ export const WhiteTiger: Animal = {
         amount: 50,
     },
     spaceTake: 55,
-    makingTimeAndLost: "3d",
+    makingTimeAndLost: "5d",
     family: "vip",
     gives: "white_tiger_skin"
 }

@@ -7,11 +7,11 @@ export const Bee: Animal = {
     emoji: "<:beehive:950764946180939786>",
     cost: {
         type: "coins",
-        amount: 10000
+        amount: 13000
     },
-    makingTimeAndLost: "3m",
+    makingTimeAndLost: "5m",
     family: "insect",
     gives: "honey",
     reputation: 15,
-    spaceTake: 3
+    spaceTake: 5
 }
