@@ -19,8 +19,8 @@ export class SlotMachine {
                 
                 indexes.push(i);
                 if (row[0].customReward) {
-                    custom.push(row[0].customInterface())
-                    const r = await row[0].customReward(bet, userId);
+                    custom.push(row[0]?.customInterface())
+                    const r = row[0].customReward;
                     sum.push(r);
                     // console.log("sum after custom: " + sum)
                 } else {
@@ -29,7 +29,21 @@ export class SlotMachine {
             }
         }));
 
-        if (indexes.length === this.size) return {amount: Math.round(sum.map(Number).reduce((g, v) => g + v, 0)), custom};
+        async function getCustomValues (sum: (SlotSymbol["customReward"] | number)[]) {
+            const numbers = sum.filter(b => typeof b === "number") as number[];
+            const mapped = sum.filter(b => (typeof (b) !== "number")) as SlotSymbol["customReward"][];
+            
+            const uniqued = [... new Set(mapped)];
+            const arr = await Promise.all(uniqued.map(async f => {
+                return await f(mapped.filter(v => v === f).length, userId);
+            }))
+            
+            const res = arr.reduce((g, v) => g + v, 0) + numbers.reduce((g, v) => g + v, 0);
+            
+            return res;
+        }
+        
+        if (indexes.length === this.size) return {amount: Math.round(await getCustomValues(sum)), custom};
         
         // console.log(sum)
         const for3x = [];
@@ -71,7 +85,7 @@ export class SlotMachine {
             }
         });
         // console.log(sum)
-        return {amount: Math.round(sum.map(Number).reduce((g, v) => g + v, 0)), custom};
+        return {amount: Math.round(await getCustomValues(sum)), custom};
     }
 
     perfectBoard () { 
@@ -81,9 +95,9 @@ export class SlotMachine {
         this.board[3].fill(this.symbols[2]);
         this.board[4].fill(this.symbols[3]);
         // this.board[0].fill(this.symbols[0]);
-        // this.board[1].fill(this.symbols[1]);
+        // this.board[1].fill(this.symbols[0]);
         // this.board[2].fill(this.symbols[0]);
-        // this.board[3].fill(this.symbols[1]);
+        // this.board[3].fill(this.symbols[0]);
         // this.board[4].fill(this.symbols[0]);
     }
 
