@@ -132,7 +132,7 @@ export class FarmInterface {
                     for (let i of animals) {
                         const count = i.count;
                         const anim = Animals[i.name] as Animal;
-                        if (!anim.gives) continue;
+                        if (!anim.gives || Animals[i.name].makingTimeAndLost && Date.now() - i.madeGot.getTime() < ms(Animals[i.name].makingTimeAndLost)) continue;
                         const newD = await findOrCreateOne("games", { findOption: a.user.id });
                         const index = newD.madeData.findIndex(a => a.name === anim.gives);
                         const toAdd = calculateMadeCount(i.name, i.madeGot, count);
