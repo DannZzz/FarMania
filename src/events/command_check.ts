@@ -32,7 +32,7 @@ export default class GetCommand extends Event {
         if (commandfile && !commandfile.disabled && !commandfile.private) {
             if (commandfile.developer && message.author.id !== DEVELOPER_ID) return;
 
-            if (userData.ban && userData.ban > new Date()) {
+            if (message.author.id !== DEVELOPER_ID && userData.ban && userData.ban > new Date()) {
                 return Embed(message).setError(`${TextExp(121, sd.language)}\n${TextExp(122, sd.language)} \`${DateTime.formatTime(DateTime.getTimeData(userData.ban.getTime()), false, Functions.getTimeLang(sd.language))}\``).send(DELETE_TIMEOUT_MESSAGES * 2)
             }
             
