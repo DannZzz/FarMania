@@ -19,6 +19,10 @@ export const MAIN_COLLECTOR_TIME: number = 35 * 1000; // menu collector time
 
 export const BUY_ANIMALS_X: number[] = [1, 10] // how many animals can be bought at once
 
+export const MADE_SELL_NUMBERS: number[] = [1, 10, 100, 0]; // Made selling numbers
+
+export const SLOTS_JACKPOT_BOOST: number = (+process.env.SLOTS_JACKPOT_BOOST) || 0.5;
+
 export const TIME_TO_CHANGE_PARAMETER: number = 30 * 1000; // server settings changing collector's time
 
 export const DELETE_TIMEOUT_MESSAGES: number = 5000; // deletes answers (messages) after replying (menu)
@@ -31,9 +35,9 @@ export const ERROR_EMOJI: EmojiResolvable = "<:cancel1:926005208176271422>"; // 
 export const SUCCESS_EMOJI: EmojiResolvable = "<:checked:926005208335663124>"; // success emoji
 export const PAGINATION_EMOJIS: EmojiResolvable[] = ["⏮", "⏪", "⏩", "⏭"]; // pagination emojis
 
-export const PREFIX: string = "!"; // default prefix
+export const PREFIX: string = "."; // default prefix
 export const colors: {[k: string]: ColorResolvable} = { // colors
-    main: "WHITE",
+    main: "#F1BA6D",
     error: "#FF5440",
     success: "#7A912A",
     none: "#2f3136",

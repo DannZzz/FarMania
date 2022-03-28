@@ -1,7 +1,7 @@
 import { Client, Util } from "client-discord";
 import { Guild, Message, MessageButton, MessageEmbed, MessageSelectOptionData, User } from "discord.js";
 import ms from "ms";
-import { DELETE_TIMEOUT_MESSAGES } from "../config";
+import { DELETE_TIMEOUT_MESSAGES, MADE_SELL_NUMBERS } from "../config";
 import { changeMoney, findOrCreateOne, models } from "../database/db";
 import { AnimalData, GameModel, madeData } from "../database/models/GameModel";
 import { Animal, AnimalNames } from "../docs/animals/Animal";
@@ -128,7 +128,7 @@ export class FarmInterface {
 
                     const data = await findOrCreateOne("games", { findOption: a.user.id });
                     const animals = data.animals as AnimalData[];
-                    console.log(animals);
+                    
                     for (let i of animals) {
                         const count = i.count;
                         const anim = Animals[i.name] as Animal;
@@ -221,19 +221,20 @@ export class FarmInterface {
                         type: "Group",
                         customId: "lol",
                         buttons: async () => {
-                            return await Promise.all([1, 10, 100].map(async number => {
+                            return await Promise.all(MADE_SELL_NUMBERS.map(async number => {
                                 const md = await findOrCreateOne("games", { findOption: a.user.id });
                                 var l = md.madeData.find(obh => obh.name === name);
                                 return {
                                     button: new MessageButton()
                                         .setCustomId(`SELL-${number}`)
-                                        .setDisabled(l.count >= number ? false : true)
+                                        .setDisabled((l.count >= number && l.count !== 0) ? false : true)
                                         .setStyle("SECONDARY")
-                                        .setLabel(`${TextExp(2, a.language)} x${number}`),
+                                        .setLabel(`${TextExp(2, a.language)} ${number === 0 ? TextExp(120, a.language) : `x${number}`}`),
                                     async action(msg: Message): Promise<any> {
                                         const data = await findOrCreateOne("games", { findOption: a.user.id })
                                         const item = data.madeData.find(a => a.name === l.name);
                                         const d = Made[l.name];
+                                        if (number === 0) number = item.count;
                                         const index = data.madeData.findIndex(a => a.name === l.name);
                                         if (!item || item.count < number) return await Embed(msg).setTitle(TextExp(5, a.language)).setError(TextExp(6, a.language)).send(DELETE_TIMEOUT_MESSAGES);
 

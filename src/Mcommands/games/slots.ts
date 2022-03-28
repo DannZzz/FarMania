@@ -1,6 +1,6 @@
 import { Client, Util } from "client-discord";
 import { ButtonInteraction, MessageButton } from "discord.js";
-import { DELETE_TIMEOUT_MESSAGES, ONE_CHIP_IN_DOLLARS, SlotsBets, SLOTS_DEFAULT_JACKPOT } from "../../config";
+import { DELETE_TIMEOUT_MESSAGES, ONE_CHIP_IN_DOLLARS, SlotsBets, SLOTS_DEFAULT_JACKPOT, SLOTS_JACKPOT_BOOST } from "../../config";
 import { changeMoney, findOrCreateOne, models } from "../../database/db";
 import { Currency, CurrencyType } from "../../docs/currency/Main";
 import { TextExp } from "../../docs/languages/createText";
@@ -92,7 +92,7 @@ async function createSlotBet(id: string, type: "dollars" | "chips" , bet: number
     if (data[type] < bet) return false;
     await Promise.all([
         changeMoney(type, id, -bet),
-        models.bot.updateOne({_id: "main"}, {$inc: {slotJackpot: type === "chips" ?  ONE_CHIP_IN_DOLLARS : bet}})
+        models.bot.updateOne({_id: "main"}, {$inc: {slotJackpot: Math.ceil((type === "chips" ?  ONE_CHIP_IN_DOLLARS : bet) * (SLOTS_JACKPOT_BOOST || 1))}})
     ])
     return true;
 }

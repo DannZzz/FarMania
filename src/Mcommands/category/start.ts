@@ -9,7 +9,7 @@ import { MessageCommand, MessageCommandRunOptions } from "../../structures/Messa
 import { stripIndents } from "common-tags";
 import { Currency, CurrencyType } from "../../docs/currency/Main";
 import { costForSpaceNextLevel } from "../../docs/levels/space";
-import { DailyGiftsAdding, DELETE_TIMEOUT_MESSAGES, DEVELOPER_ID, EMAIL, OneDay, Rewards, SPACE_FOR_ONE_LEVEL } from "../../config";
+import { DailyGiftsAdding, DELETE_TIMEOUT_MESSAGES, DEVELOPER_ID, EMAIL, OneDay, Rewards, SLOTS_JACKPOT_BOOST, SPACE_FOR_ONE_LEVEL } from "../../config";
 import { ShopInterface } from "../../structures/ShopInterface";
 import { ServerSettings } from "../../structures/ServerSettings";
 import { Rate } from "../../structures/Rate";
@@ -327,8 +327,7 @@ export default class Start extends MessageCommand {
                             async action(): Promise<Page<MessageEmbed>> {
                                 return {
                                     async embed() {
-                                        const bot = await findOrCreateOne("bot", {findOption: "main"});
-                                        return Embed(msg).setText(`${await FarmInterface.moneyInterface(msg.author.id, true)}\n\n${await jackpotString(client, sd.language)}\n\n`).setTitle(`🎰 | ${TextExp(95, sd.language)}`) as MessageEmbed;
+                                        return Embed(msg).setText(`${await FarmInterface.moneyInterface(msg.author.id, true)}\n\n${await jackpotString(client, sd.language)}\n\n${TextExp(123, sd.language)} \`${Math.round(SLOTS_JACKPOT_BOOST / 1 * 100)}%\` ${TextExp(124, sd.language)}\n\n`).setTitle(`🎰 | ${TextExp(95, sd.language)}`) as MessageEmbed;
                                     },
                                     type: "Group",
                                     async buttons() {

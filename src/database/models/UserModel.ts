@@ -7,7 +7,8 @@ export interface UserModel {
     dollars: { type: number, default: 10 } & number;
     chips: { type: number, default: 10 } & number;
     dailyLine: { type: number, default: 1 } & number;
-    lastDaily: Date
+    lastDaily: Date;
+    ban: { type: Date, default: null } & Date;
 }
 
 export const UserModel = mongoose.model("user", new mongoose.Schema<UserModel>({
@@ -17,5 +18,6 @@ export const UserModel = mongoose.model("user", new mongoose.Schema<UserModel>({
     dollars: { type: Number, default: 10 },
     chips: { type: Number, default: 10 },
     dailyLine: { type: Number, default: 1 },
-    lastDaily: Date
+    lastDaily: Date,
+    ban: { type: Date, default: null },
 }))
