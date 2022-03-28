@@ -119,6 +119,11 @@ enum EnglishData {
     "Number of servers:",
     "Support mail:",
     "Contact us by mail if you find bugs (preferably screenshots), or you have an awesome idea in your head!",
+    "All",
+    "Your account has been banned!",
+    "Unban in: ",
+    "Jackpot growth: ",
+    "of bets.",
 }
 
 export default {
