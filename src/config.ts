@@ -13,7 +13,7 @@ export const EMAIL: string = "farmania@inbox.ru";
 export const DEVELOPER_ID: UserResolvable = "382906068319076372";
 
 // ---------------------- SETTINGS ----------------------
-export const COST_TO_ADD_FOR_EACH_LEVEL: number = 600; // Space 1 level cost
+export const COST_TO_ADD_FOR_EACH_LEVEL: number = +process.env.COST_TO_ADD_FOR_EACH_LEVEL || 2000; // Space 1 level cost
 export const SPACE_FOR_ONE_LEVEL: number = 50; // adding space per level
 export const MAIN_COLLECTOR_TIME: number = (+process.env.MAIN_COLLECTOR_TIME || 35) * 1000; // menu collector time
 

@@ -85,5 +85,21 @@ export const ReputaionLevelData: ReadonlyArray<ReputaionLevelData> = [
         reputationNeed: 47000,
         interface: () => `${Currency.dollars.emoji}\`${Util.formatNumber(250)}\``
     },
+    {
+        uniqueId: "9th",
+        async action (userId) {
+            await changeMoney("dollars", userId, 750);
+        },
+        reputationNeed: 350000,
+        interface: () => `${Currency.dollars.emoji}\`${Util.formatNumber(750)}\``
+    },
+    {
+        uniqueId: "10th",
+        async action (userId) {
+            await changeMoney("dollars", userId, 1500);
+        },
+        reputationNeed: 750000,
+        interface: () => `${Currency.dollars.emoji}\`${Util.formatNumber(1500)}\``
+    }
 
 ]

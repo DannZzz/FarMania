@@ -92,7 +92,7 @@ async function createSlotBet(id: string, type: "dollars" | "chips" , bet: number
     if (data[type] < bet) return false;
     await Promise.all([
         changeMoney(type, id, -bet),
-        changeXp(id, bet / 2),
+        changeXp(id, bet),
         models.bot.updateOne({_id: "main"}, {$inc: {slotJackpot: Math.ceil((type === "chips" ?  ONE_CHIP_IN_DOLLARS : bet) * (SLOTS_JACKPOT_BOOST || 1))}})
     ])
     return true;

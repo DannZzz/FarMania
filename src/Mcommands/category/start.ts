@@ -107,7 +107,7 @@ export default class Start extends MessageCommand {
                         return embed;
                     },
                     buttons: async () => [
-                        { // STORAFGE SETTINGS
+                        { // STORAGE SETTINGS
                             button: new MessageButton()
                                 .setCustomId("storage")
                                 .setEmoji("📐")

@@ -133,7 +133,7 @@ export class FarmInterface {
                     for (let i of animals) {
                         const count = i.count;
                         const anim = Animals[i.name] as Animal;
-                        if (!anim.gives || Animals[i.name].makingTimeAndLost && Date.now() - i.madeGot.getTime() < ms(Animals[i.name].makingTimeAndLost)) continue;
+                        if (!anim.gives || Animals[i.name].makingTimeAndLost && Date.now() - i.madeGot.getTime() < ms(Animals[i.name].makingTimeAndLost as string)) continue;
                         const newD = await findOrCreateOne("games", { findOption: a.user.id });
                         const index = newD.madeData.findIndex(a => a.name === anim.gives);
                         const toAdd = calculateMadeCount(i.name, i.madeGot, count);
@@ -147,7 +147,7 @@ export class FarmInterface {
                     }
                     const newAnimals = [...data.animals]
                     newAnimals.forEach(d => {
-                        if (Animals[d.name].makingTimeAndLost && Date.now() - d.madeGot.getTime() >= ms(Animals[d.name].makingTimeAndLost)) d.madeGot = new Date()
+                        if (Animals[d.name].makingTimeAndLost && Date.now() - d.madeGot.getTime() >= ms(Animals[d.name].makingTimeAndLost as string)) d.madeGot = new Date()
                     });
                     await models.games.updateOne({ _id: a.user.id }, { $set: { animals: newAnimals } });
                     return Embed(a.msg).setSuccess(TextExp(32, a.language)).send(DELETE_TIMEOUT_MESSAGES);

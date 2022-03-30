@@ -15,9 +15,10 @@ export interface Animal {
     readonly gives?: Made_list;
     readonly reputation: number;
     readonly spaceTake: number;
+    readonly needLevel?: number;
 }
 
-export type AnimalFamily = "insect" | "cattle" | "reptile" | "vip" | "predator";
+export type AnimalFamily = "insect" | "cattle" | "reptile" | "vip" | "predator" | "ocean";
 
 export type AnimalNames = 
 "Bee" |
@@ -30,4 +31,7 @@ export type AnimalNames =
 "Hippo" |
 "Komodo" |
 "Tiger" |
-"WhiteTiger"
+"WhiteTiger" |
+"Shark" |
+"Dolphin" |
+"Elephant"

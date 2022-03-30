@@ -14,6 +14,13 @@ type FoodType = {[k: string]: {
 
 export type Made = FoodType
 export const Made = {
+    shark_trunk: {
+        emoji: "<:shark_trunk:958750276599300187>",
+        cost: {
+            type: "coins" as CurrencyType,
+            amount: 350000
+        }
+    },
     white_tiger_skin: {
         emoji: "<:white_tiger_skin:956968047078420530>",
         cost: {
@@ -86,5 +93,5 @@ export function calculateMadeCount (animalName: AnimalNames, lastCollectedDate: 
     const time = Math.round((Date.now() - lastCollectedDate.getTime()) / 1000); // seconds
     const animal = Animals[animalName] as Animal;
     const makingCountTimeInSeconds = Math.round(ms(animal.makingTimeAndLost) / 1000)
-    return Math.floor(time / makingCountTimeInSeconds * (typeof animals !== "undefined" ? animals : 1) );
+    return makingCountTimeInSeconds <= time ? Math.floor(time / makingCountTimeInSeconds * (typeof animals !== "undefined" ? animals : 1) ) : 0;
 }

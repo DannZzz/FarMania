@@ -63,7 +63,7 @@ export default class MathGames extends MessageCommand {
             if (answer === result) {
                 await Promise.all([
                     changeMoney(Rewards.mathGame.type, msg.author.id, Rewards.mathGame.amount),
-                    changeXp(msg.author.id, Rewards.mathGame.amount / 500)
+                    changeXp(msg.author.id, Rewards.mathGame.amount / 200)
                 ]);
                 
                 m.edit({components: [], embeds: [Embed(msg).setSuccess(`${TextExp(84, sd.language)}\n\n${TextExp(73, sd.language)}: ${Currency[Rewards.mathGame.type].emoji}\`${client.util.formatNumber(Rewards.mathGame.amount)}\``)]});

@@ -17,6 +17,7 @@ import { stripIndents } from "common-tags";
 import { Made } from "../docs/animals/Foods";
 import ms from "ms";
 import { getRealCost } from "../docs/currency/selling";
+import { findLevel } from "../docs/levels/levels";
 
 export class ShopInterface {
     private user: User;
@@ -100,6 +101,7 @@ export class ShopInterface {
                                                         .setText(stripIndents`
                                                         ${await FarmInterface.moneyInterface(a.user.id)} — 📐\`${a.client.util.formatNumber(space.space)}/${a.client.util.formatNumber(space.validSpace)}\` — ✨\`${a.client.util.formatNumber(Functions.calculateReputation(data.animals))}\`
 
+                                                        ${anim.needLevel ? `${TextExp(125, a.sd.language)}: ⭐\`${a.client.util.formatNumber(anim.needLevel)}\`` : ""}
                                                         ${anim.special ? SUCCESS_EMOJI : ERROR_EMOJI} ${TextExp(94, a.sd.language)}
                                                         ${TextExp(68, a.sd.language)} 📐\`${a.client.util.formatNumber(anim.spaceTake)}\`
                                                         ${TextExp(18, a.sd.language)} ${Currency[anim.cost.type].emoji}\`${a.client.util.formatNumber(anim.cost.amount)}\`
@@ -126,6 +128,8 @@ export class ShopInterface {
                                                             async action() {
                                                                 const myData = await findOrCreateOne("users", { findOption: a.user.id });
                                                                 const myDataGame = await findOrCreateOne("games", { findOption: a.user.id });
+                                                                const level = findLevel(myData.xp || 0);
+                                                                if (anim.needLevel && anim.needLevel > level.currentLevel) return Embed(msg).setError(TextExp(130, a.sd.language) + ` **${anim.needLevel}**`).send(DELETE_TIMEOUT_MESSAGES);
                                                                 const spaces = calculateSpace(myDataGame.spaceLevel, myDataGame.animals);
                                                                 if (spaces.space + (anim.spaceTake * number) > spaces.validSpace) return Embed(a.msg).setError(TextExp(25, a.sd.language) + " " + TextExp(17, a.sd.language) + ".").send(DELETE_TIMEOUT_MESSAGES);
                                                                 if ((anim.cost.amount * number) > myData[anim.cost.type]) return Embed(a.msg).setError(TextExp(6, a.sd.language)).send(DELETE_TIMEOUT_MESSAGES);
