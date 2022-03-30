@@ -56,7 +56,7 @@ export class InterfaceEdition<T extends MessageEmbed> {
     }
 
     async final(msg: Message, primary: PrimaryMenuData, thisPage?: Page<T>) {
-        console.log(this.user.id)
+        
         if (thisPage) {
            
             var buttons = [this.backButton, ...(thisPage?.buttons ? (await thisPage?.buttons?.()).map(d => d.button) : []), ... (thisPage?.menus ? (await (thisPage as Page<T>)?.menus?.()).map(b => b.menu) : [])];
