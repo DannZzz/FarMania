@@ -171,6 +171,46 @@ export default class Start extends MessageCommand {
                                                 ])
                                                 return Embed(msg).setSuccess(TextExp(15, sd.language)).send(DELETE_TIMEOUT_MESSAGES)
                                             }
+                                        },
+                                        {
+                                            button: new MessageButton()
+                                                .setCustomId("levelUpSpaceCoin5X")
+                                                .setEmoji(Currency.coins.emoji)
+                                                .setLabel(TextExp(14, sd.language) + " x5")
+                                                .setStyle("SECONDARY"),
+                                            async action() {
+                                                const myData = await findOrCreateOne("users", { findOption: msg.author.id });
+                                                const myDataGame = await findOrCreateOne("games", { findOption: msg.author.id });
+                                                const cost = costForSpaceNextLevel(myDataGame.spaceLevel || 1).coins;
+                                                if (myData.coins < cost) {
+                                                    return Embed(msg).setError(TextExp(6, sd.language)).send(DELETE_TIMEOUT_MESSAGES);
+                                                }
+                                                await Promise.all([
+                                                    models.games.updateOne({ _id: msg.author.id }, { $inc: { spaceLevel: 5 } }),
+                                                    changeMoney("coins", msg.author.id, -cost)
+                                                ])
+                                                return Embed(msg).setSuccess(TextExp(15, sd.language)).send(DELETE_TIMEOUT_MESSAGES)
+                                            }
+                                        },
+                                        {
+                                            button: new MessageButton()
+                                                .setCustomId("levelUpSpaceDollar5X")
+                                                .setEmoji(Currency.dollars.emoji)
+                                                .setLabel(TextExp(14, sd.language) + " x5")
+                                                .setStyle("SECONDARY"),
+                                            async action() {
+                                                const myData = await findOrCreateOne("users", { findOption: msg.author.id });
+                                                const myDataGame = await findOrCreateOne("games", { findOption: msg.author.id });
+                                                const cost = costForSpaceNextLevel(myDataGame.spaceLevel || 1).dollars * 5;
+                                                if (myData.dollars < cost) {
+                                                    return Embed(msg).setError(TextExp(6, sd.language)).send(DELETE_TIMEOUT_MESSAGES);
+                                                }
+                                                await Promise.all([
+                                                    models.games.updateOne({ _id: msg.author.id }, { $inc: { spaceLevel: 5 } }),
+                                                    changeMoney("dollars", msg.author.id, -cost)
+                                                ])
+                                                return Embed(msg).setSuccess(TextExp(15, sd.language)).send(DELETE_TIMEOUT_MESSAGES)
+                                            }
                                         }
                                     ],
                                 } as Page<MessageEmbed>
