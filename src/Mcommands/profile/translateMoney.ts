@@ -49,7 +49,7 @@ export default class TranslateMoney extends MessageCommand {
             if (!_args[1] || isNaN(+_args[1]) || +_args[1] < 1) return Embed(msg).setError(TextExp(131, sd.language) + "\n\n" + "`@Dann#2523 50\n418794163321789 150`").send(DELETE_TIMEOUT_MESSAGES);
             const amount = Math.round(+_args[1]);
             await delay(700)
-            if (!(await hasMoney(member.id, amount))) return Embed(msg).setError(`${TextExp(25, sd.language)} ${Currency.dollars.emoji}`).send(DELETE_TIMEOUT_MESSAGES);
+            if (!(await hasMoney(msg.author.id, amount))) return Embed(msg).setError(`${TextExp(25, sd.language)} ${Currency.dollars.emoji}`).send(DELETE_TIMEOUT_MESSAGES);
             const data = await translations(msg.author.id, true);
             if (data.sent + amount > data.available) return Embed(msg).setTitle(TextExp(5, sd.language)).setError(TextExp(135, sd.language)).send(DELETE_TIMEOUT_MESSAGES);
             await Promise.all([
