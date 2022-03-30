@@ -9,7 +9,7 @@ export const Komodo: Animal = {
         amount: 20
     },
     spaceTake: 60,
-    makingTimeAndLost: "",
+    makingTimeAndLost: "36h",
     gives: "komodo_skin",
     family: "predator"
 }
