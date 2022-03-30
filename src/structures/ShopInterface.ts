@@ -181,7 +181,7 @@ export class ShopInterface {
                             nextPage: {
                                 async embed() {
                                     const strings = CREDITS.map(obj => {
-                                        return `\`$${a.client.util.formatNumber(obj.onDollars)}\` --> ${Currency.dollars.emoji}\`${a.client.util.formatNumber(obj.amount)}\``
+                                        return `${Currency.dollars.emoji}\`${a.client.util.formatNumber(obj.amount)}\` — \`${a.client.util.formatNumber(obj.onRub)} RUB\``
                                     })
                                     return Embed(a.msg).setTitle(`💰 | ${TextExp(28, a.sd.language)}`).setText(TextExp(29, a.sd.language) + "\n\n" + strings.join("\n\n")) as MessageEmbed;
                                 },
