@@ -41,7 +41,7 @@ export const ERROR_EMOJI: EmojiResolvable = "<:cancel1:926005208176271422>"; // 
 export const SUCCESS_EMOJI: EmojiResolvable = "<:checked:926005208335663124>"; // success emoji
 export const PAGINATION_EMOJIS: EmojiResolvable[] = ["⏮", "⏪", "⏩", "⏭"]; // pagination emojis
 
-export const PREFIX: string = "!"; // default prefix
+export const PREFIX: string = "."; // default prefix
 export const colors: {[k: string]: ColorResolvable} = { // colors
     main: "#F1BA6D",
     error: "#FF5440",
