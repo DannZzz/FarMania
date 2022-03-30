@@ -25,7 +25,7 @@ export const Made = {
         emoji: "<:tiger_skin:956968047678226452>",
         cost: {
             type: "coins" as CurrencyType,
-            amount: 50000
+            amount: 40000
         }
     },
     komodo_skin: {
@@ -46,27 +46,27 @@ export const Made = {
         emoji: "🍖",
         cost: {
             type: "coins" as CurrencyType,
-            amount: 3000
+            amount: 2100
         }
     },
     honey: {
         emoji: "🍯",
         cost: {
             type: "coins"  as CurrencyType,
-            amount: 800
+            amount: 400
         }
     },
     milk: {
         emoji: "🥛",
         cost: {
-            amount: 1500,
+            amount: 1300,
             type: "coins" as CurrencyType
         }
     },
     croc_skin: {
         emoji: "<:croc_skin:952580680234176544>",
         cost: {
-            amount: 25000,
+            amount: 20000,
             type: "coins"  as CurrencyType
         }
     }

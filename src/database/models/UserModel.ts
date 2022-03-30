@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
 
+export type Translation = {
+    to: string;
+    amount: number,
+    date: Date
+}
+
 export interface UserModel {
     _id: string;
     cooldowns: { type: Object, default: {[k: string]: Date} } & {[k: string]: Date};
@@ -9,6 +15,8 @@ export interface UserModel {
     dailyLine: { type: number, default: 1 } & number;
     lastDaily: Date;
     ban: { type: Date, default: null } & Date;
+    xp: { type: number, default: 0 } & number;
+    translations: { type: Array<Translation>, default: [] } & Array<Translation>;
 }
 
 export const UserModel = mongoose.model("user", new mongoose.Schema<UserModel>({
@@ -20,4 +28,6 @@ export const UserModel = mongoose.model("user", new mongoose.Schema<UserModel>({
     dailyLine: { type: Number, default: 1 },
     lastDaily: Date,
     ban: { type: Date, default: null },
+    xp: { type: Number, default: 0 },
+    translations: { type: Array, default: [] }
 }))

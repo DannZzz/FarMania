@@ -1,6 +1,6 @@
 import { Client } from "client-discord";
 import { ButtonStyle } from "discord-api-types";
-import { EmojiResolvable, Message, MessageActionRow, MessageButton, MessageButtonStyle, MessageEmbed, MessageSelectMenu, MessageSelectMenuOptions, MessageSelectOptionData, SelectMenuInteraction, User } from "discord.js"
+import { EmojiResolvable, Message, MessageActionRow, MessageAttachment, MessageButton, MessageButtonStyle, MessageEmbed, MessageSelectMenu, MessageSelectMenuOptions, MessageSelectOptionData, SelectMenuInteraction, User } from "discord.js"
 import { MAIN_COLLECTOR_TIME } from "../config";
 import { ButtonEmojis } from "../docs/emojis/emoji";
 import Text from "../docs/languages/createText";
@@ -19,6 +19,7 @@ export interface Page<T> {
     customId?: string;
     customRows?(buttons: MessageButton[]): MessageActionRow[];
     type: "Group";
+    attachments?(): Promise<Array<MessageAttachment>>
 }
 
 export interface CustomMenu { disabled?: boolean, maxValues?: number, customId: string, placeholder?: string, options: MessageSelectOptionData[] }
@@ -56,6 +57,7 @@ export class InterfaceEdition<T extends MessageEmbed> {
 
     async final(msg: Message, primary: PrimaryMenuData, thisPage?: Page<T>) {
         if (thisPage) {
+           
             var buttons = [this.backButton, ...(thisPage?.buttons ? (await thisPage?.buttons?.()).map(d => d.button) : []), ... (thisPage?.menus ? (await (thisPage as Page<T>)?.menus?.()).map(b => b.menu) : [])];
             if (thisPage.nextPage) {
                 const group = thisPage.nextPage;
@@ -220,6 +222,8 @@ export class InterfaceEdition<T extends MessageEmbed> {
     }
 
     private async updateMessage(msg: Message, options: Page<T> | PrimaryMenuData): Promise<Message> {
+        msg.removeAttachments()
+
         if (options.type === "Group") {
             const buttons = [this.backButton.setDisabled(false), ... (!options.customRows && options?.buttons ? (await (options as Page<T>)?.buttons?.()).map(b => b.button) : []), ... (options?.menus ? (await (options as Page<T>)?.menus?.()).map(b => b.menu) : [])];
             if (options.nextPage) {
@@ -232,9 +236,12 @@ export class InterfaceEdition<T extends MessageEmbed> {
                 if (group.emoji) b.setEmoji(group.emoji);
                 buttons.push(b);
             }
-            return await msg.edit({ components: !options.customRows ? (InterfaceEdition.createRows(buttons)) : options.customRows && (options?.buttons ? options.customRows((await (options as Page<T>)?.buttons?.()).map(b => b.button)) : []), embeds: [await (options as Page<T>).embed()] })
+            var attachments = [];
+            if (options.attachments ) attachments = await options.attachments();
+            
+            return await msg.edit({ files: attachments, components: !options.customRows ? (InterfaceEdition.createRows(buttons)) : options.customRows && (options?.buttons ? options.customRows((await (options as Page<T>)?.buttons?.()).map(b => b.button)) : []), embeds: [await (options as Page<T>).embed()] })
         } else {
-            return await msg.edit({ components: (options as PrimaryMenuData).rows, embeds: [(options as PrimaryMenuData).mainEmbed] })
+            return await msg.edit({ components: (options as PrimaryMenuData).rows, embeds: [(options as PrimaryMenuData).mainEmbed], files: [] })
         }
     }
 

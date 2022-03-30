@@ -1,6 +1,6 @@
 import { ButtonInteraction, MessageButton } from "discord.js";
 import { MathGameCollectorTime, Rewards } from "../../config";
-import { changeMoney } from "../../database/db";
+import { changeMoney, changeXp } from "../../database/db";
 import { Currency } from "../../docs/currency/Main";
 import Text, { TextExp } from "../../docs/languages/createText";
 import { DateTime } from "../../structures/DateAndTime";
@@ -61,7 +61,11 @@ export default class MathGames extends MessageCommand {
             c.stop();
             const answer = +(b.customId.split("$")[1]);
             if (answer === result) {
-                await changeMoney(Rewards.mathGame.type, msg.author.id, Rewards.mathGame.amount);
+                await Promise.all([
+                    changeMoney(Rewards.mathGame.type, msg.author.id, Rewards.mathGame.amount),
+                    changeXp(msg.author.id, Rewards.mathGame.amount / 500)
+                ]);
+                
                 m.edit({components: [], embeds: [Embed(msg).setSuccess(`${TextExp(84, sd.language)}\n\n${TextExp(73, sd.language)}: ${Currency[Rewards.mathGame.type].emoji}\`${client.util.formatNumber(Rewards.mathGame.amount)}\``)]});
                 await delay(10000);
                 m.delete();

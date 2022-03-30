@@ -8,7 +8,7 @@ export const Sheep: Animal = {
     },
     family: "cattle",
     gives: "wool",
-    makingTimeAndLost: "8m",
+    makingTimeAndLost: "14m",
     spaceTake: 25,
     reputation: 8,
     emoji: "<:sheep:956194240122200074>"

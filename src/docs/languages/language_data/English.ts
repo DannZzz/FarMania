@@ -124,6 +124,18 @@ enum EnglishData {
     "Unban in: ",
     "Jackpot growth: ",
     "of bets.",
+    "Level",
+    "Profile and Balance Management.",
+    "Profile",
+    "Total animals:",
+    "Money Transfer",
+    "Level is required to unlock this function:",
+    "Send participant and amount.",
+    "Number of available funds to send:",
+    "Need a mention or ID user!",
+    "Participant not found!",
+    "Exceeding the limit!",
+    "Transfer was successful!",
 }
 
 export default {

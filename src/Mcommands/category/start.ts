@@ -8,8 +8,8 @@ import { InterfaceEdition, Page } from "../../structures/InterfaceEdition";
 import { MessageCommand, MessageCommandRunOptions } from "../../structures/MessageCommand";
 import { stripIndents } from "common-tags";
 import { Currency, CurrencyType } from "../../docs/currency/Main";
-import { costForSpaceNextLevel } from "../../docs/levels/space";
-import { DailyGiftsAdding, DELETE_TIMEOUT_MESSAGES, DEVELOPER_ID, EMAIL, OneDay, Rewards, SLOTS_JACKPOT_BOOST, SPACE_FOR_ONE_LEVEL } from "../../config";
+import { calculateSpace, costForSpaceNextLevel } from "../../docs/levels/space";
+import { DailyGiftsAdding, DELETE_TIMEOUT_MESSAGES, DEVELOPER_ID, EMAIL, UNLOCK_TRANSLATION_LEVEL, OneDay, Rewards, SLOTS_JACKPOT_BOOST, SPACE_FOR_ONE_LEVEL } from "../../config";
 import { ShopInterface } from "../../structures/ShopInterface";
 import { ServerSettings } from "../../structures/ServerSettings";
 import { Rate } from "../../structures/Rate";
@@ -22,6 +22,8 @@ import { DateTime } from "../../structures/DateAndTime";
 import { SlotSymbols } from "../../structures/SlotMachine/Symbols";
 import { jackpotString } from "../games/slots";
 import { RedeemCode } from "../../structures/RedeemCodes";
+import { checkLevel, findLevel } from "../../docs/levels/levels";
+import { StarImage } from "../../structures/LevelStar";
 
 const redeemCodeListener = new Set();
 
@@ -41,6 +43,50 @@ export default class Start extends MessageCommand {
             .setEmoji(ButtonEmojis.xBack);
 
         new InterfaceEdition(client, [
+            {
+                customId: "PROFILESETTINGS",
+                type: "Group",
+                description: TextExp(126, sd.language),
+                buttonLabel: TextExp(127, sd.language),
+                buttonType: "PRIMARY",
+                emoji: "📃",
+                async embed() {
+                    const g = await findOrCreateOne("games", {findOption: msg.author.id});
+                    const space = calculateSpace(g.spaceLevel, g.animals);
+                    const user = await findOrCreateOne("users", {findOption: msg.author.id});
+                    const level = findLevel(user.xp || 0);
+                    return Embed(msg).setText(stripIndents`
+                    ${await FarmInterface.moneyInterface(msg.author.id, true)}
+                    ✨ \`${Functions.calculateReputation(g.animals)}\`
+                    📐 \`${space.space}/${space.validSpace}\`
+                    
+                    ⭐ \`${client.util.formatNumber(Math.round(user.xp))}/${client.util.formatNumber(level.needXp)} xp\`
+                    ${TextExp(128, sd.language)} \`${client.util.formatNumber(Math.round(g.animals.map(obj => obj?.count || 0).reduce((a, v) => a + v, 0)))}\`
+                    `).setThumbnail("attachment://star.png")
+                },
+                async attachments ( ) {
+                    const user = await findOrCreateOne("users", {findOption: msg.author.id});
+                    const level = findLevel(user.xp || 0);
+                    const card = new StarImage(level.currentLevel);
+                    return [await card.build()];
+                },
+                async buttons() {
+                    return [
+                        {
+                            button: new MessageButton()
+                                .setCustomId("MAKETRANSLATION")
+                                .setLabel(TextExp(129, sd.language))
+                                .setStyle("PRIMARY"),
+                            async action() {
+                                if (!(await checkLevel(msg.author.id, UNLOCK_TRANSLATION_LEVEL))) return Embed(msg).setError(`${TextExp(130, sd.language)} **${UNLOCK_TRANSLATION_LEVEL}**`).send(DELETE_TIMEOUT_MESSAGES);
+
+                                const cmd: MessageCommand = client.messageCommands.get("translate-money");
+                                cmd.execute({client, msg, args: [], prefix, sd, methods});
+                            }
+                        }
+                    ]
+                }
+            },
             {
                 customId: "Farm",
                 type: "Group",

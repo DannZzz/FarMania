@@ -9,7 +9,7 @@ export const Cow: Animal = {
         type: "coins"
     },
     spaceTake: 10,
-    makingTimeAndLost: "10m",
+    makingTimeAndLost: "13m",
     gives: "milk",
     reputation: 25
 }

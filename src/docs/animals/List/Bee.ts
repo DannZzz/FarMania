@@ -9,7 +9,7 @@ export const Bee: Animal = {
         type: "coins",
         amount: 13000
     },
-    makingTimeAndLost: "5m",
+    makingTimeAndLost: "8m",
     family: "insect",
     gives: "honey",
     reputation: 15,

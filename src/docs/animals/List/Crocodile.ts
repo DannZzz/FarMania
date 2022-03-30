@@ -7,7 +7,7 @@ export const Crocodile: Animal = {
         amount: 15
     },
     gives: "croc_skin",
-    makingTimeAndLost: "6h",
+    makingTimeAndLost: "8h",
     family: "reptile",
     emoji: "<:crocodile:956194239857967168>",
     reputation: 150,

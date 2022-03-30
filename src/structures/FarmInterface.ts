@@ -12,6 +12,7 @@ import { getRealCost } from "../docs/currency/selling";
 import { ButtonEmojis } from "../docs/emojis/emoji";
 import Text, { TextExp } from "../docs/languages/createText";
 import { Languages } from "../docs/languages/language_list";
+import { findLevel } from "../docs/levels/levels";
 import { Embed } from "./Embed";
 import { Functions } from "./Functions";
 import { InterfaceEdition, Page } from "./InterfaceEdition";

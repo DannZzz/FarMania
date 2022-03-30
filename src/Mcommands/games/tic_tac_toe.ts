@@ -1,6 +1,6 @@
 import { MessageActionRow, MessageButton } from "discord.js";
 import { DELETE_TIMEOUT_MESSAGES, Rewards, TicTacToeCooldown } from "../../config";
-import { changeMoney, findOrCreateOne, models } from "../../database/db";
+import { changeMoney, changeXp, findOrCreateOne, models } from "../../database/db";
 import { Currency } from "../../docs/currency/Main";
 import { TextExp } from "../../docs/languages/createText";
 import { DateTime } from "../../structures/DateAndTime";
@@ -70,7 +70,13 @@ export default class TTT extends MessageCommand {
                     if (users.length === 1) g.updateData("AI", true);
                     if (users.length === 2) g.updateData("USER", true);
                     stopped = true;
-                    if (g.winner !== "A.I") await changeMoney(Rewards.ttt.type, g.winner, (g.S === "A.I" ? Rewards.ttt.amount : Rewards.ttt.amountAgainsMember));
+                    if (g.winner !== "A.I") {
+                        await Promise.all([
+                            changeMoney(Rewards.ttt.type, g.winner, (g.S === "A.I" ? Rewards.ttt.amount : Rewards.ttt.amountAgainsMember)),
+                            changeXp(g.winner, (g.S === "A.I" ? Rewards.ttt.amount / 500 : Rewards.ttt.amountAgainsMember / 500))
+                        ]);
+                        
+                    }
                     return await m.edit({ embeds: [Embed(msg).setText(`${TextExp(71, sd.language)}: ${g.winner === "A.I" ? `**${g.winner}**` : `<@${g.winner}>`}\n\n${TextExp(73, sd.language)}: ${Currency[Rewards.ttt.type].emoji}\`${client.util.formatNumber((g.S === "A.I" ? Rewards.ttt.amount : Rewards.ttt.amountAgainsMember))}\``)], components: [] })
                 } else if (ended) {
                     if (users.length === 1) g.updateData("AI", true);
@@ -107,7 +113,12 @@ export default class TTT extends MessageCommand {
                         if (users.length === 1) g.updateData("AI", true);
                         if (users.length === 2) g.updateData("USER", true);
                         c.stop();
-                        if (g.winner !== "A.I") await changeMoney(Rewards.ttt.type, g.winner, (g.S === "A.I" ? Rewards.ttt.amount : Rewards.ttt.amountAgainsMember));
+                        if (g.winner !== "A.I") {
+                            await Promise.all([
+                                changeMoney(Rewards.ttt.type, g.winner, (g.S === "A.I" ? Rewards.ttt.amount : Rewards.ttt.amountAgainsMember)),
+                                changeXp(g.winner, (g.S === "A.I" ? Rewards.ttt.amount / 500 : Rewards.ttt.amountAgainsMember / 500))
+                            ])
+                        };
                         return await m.edit({ embeds: [Embed(msg).setText(`${TextExp(71, sd.language)}: ${g.winner === "A.I" ? `**${g.winner}**` : `<@${g.winner}>`}\n\n${TextExp(73, sd.language)}: ${Currency[Rewards.ttt.type].emoji}\`${client.util.formatNumber((g.S === "A.I" ? Rewards.ttt.amount : Rewards.ttt.amountAgainsMember))}\``)], components: [] })
                     } else if (ended) {
                         stopped = true;

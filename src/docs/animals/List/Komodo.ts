@@ -6,10 +6,10 @@ export const Komodo: Animal = {
     reputation: 300,
     cost: {
         type: "dollars",
-        amount: 18
+        amount: 20
     },
     spaceTake: 60,
-    makingTimeAndLost: "1d",
+    makingTimeAndLost: "",
     gives: "komodo_skin",
     family: "predator"
 }

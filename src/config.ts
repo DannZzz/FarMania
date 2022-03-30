@@ -15,19 +15,25 @@ export const DEVELOPER_ID: UserResolvable = "382906068319076372";
 // ---------------------- SETTINGS ----------------------
 export const COST_TO_ADD_FOR_EACH_LEVEL: number = 600; // Space 1 level cost
 export const SPACE_FOR_ONE_LEVEL: number = 50; // adding space per level
-export const MAIN_COLLECTOR_TIME: number = 35 * 1000; // menu collector time
+export const MAIN_COLLECTOR_TIME: number = (+process.env.MAIN_COLLECTOR_TIME || 35) * 1000; // menu collector time
 
 export const BUY_ANIMALS_X: number[] = [1, 10] // how many animals can be bought at once
 
 export const MADE_SELL_NUMBERS: number[] = [1, 10, 100, 0]; // Made selling numbers
 
-export const SLOTS_JACKPOT_BOOST: number = (+process.env.SLOTS_JACKPOT_BOOST) || 0.5;
+export const SLOTS_JACKPOT_BOOST: number = (+process.env.SLOTS_JACKPOT_BOOST) || 0.5; // Boost amount
 
 export const TIME_TO_CHANGE_PARAMETER: number = 30 * 1000; // server settings changing collector's time
 
 export const DELETE_TIMEOUT_MESSAGES: number = 5000; // deletes answers (messages) after replying (menu)
 
 export const OneDay: number = 86400000; // One day in milliseconds
+
+export const TRANSLATION_ADD_PER_LEVEL: number = (+process.env.TRANSLATION_ADD_PER_LEVEL) || 20;
+
+export const UNLOCK_TRANSLATION_LEVEL: number = (+process.env.UNLOCK_TRANSLATION_LEVEL) || 15;
+
+export const TRANSLATION_DEFAULT: number = ((+process.env.TRANSLATION_DEFAUT) || 300) - UNLOCK_TRANSLATION_LEVEL * TRANSLATION_ADD_PER_LEVEL
 
 export const TicTacToeCooldown: number = 1000 * 60 * 20; // Cooldown after playing ttt with real member
 
@@ -102,3 +108,5 @@ export const CREDITS: {amount: number, onDollars: number}[] = [ // buy dollars w
         onDollars: 10
     }
 ].reverse();
+
+export const STAR_IMG: string = "https://cdn.discordapp.com/attachments/957192630700224522/958357505958903848/download.png";

@@ -8,7 +8,7 @@ export const Zebra: Animal = {
     },
     family: "cattle",
     gives: "meat",
-    makingTimeAndLost: "10m",
+    makingTimeAndLost: "13m",
     reputation: 40,
     spaceTake: 10,
     emoji: "<:zebra:956960481371881472>",

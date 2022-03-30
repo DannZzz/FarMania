@@ -4,12 +4,12 @@ export const Hippo: Animal = {
     name: "Hippo",
     cost: {
         type: "coins",
-        amount: 150000
+        amount: 350000
     },
-    makingTimeAndLost: "5m",
+    makingTimeAndLost: "14m",
     gives: "meat",
     emoji: "<:hippo:956962498265890856>",
     family: "predator",
     reputation: 200,
-    spaceTake: 65,
+    spaceTake: 85,
 }
