@@ -94,18 +94,18 @@ export const COINS_TO_DOLLARS: {amount: number, cost: number}[] = [ // buy coins
     }
 ].reverse();
 
-export const CREDITS: {amount: number, onDollars: number}[] = [ // buy dollars with real money
+export const CREDITS: {amount: number, onRub: number}[] = [ // buy dollars with real money
     {
         amount: 50,
-        onDollars: 1
+        onRub: 59
     },
     {
         amount: 200,
-        onDollars: 3
+        onRub: 189
     },
     {
         amount: 850,
-        onDollars: 10
+        onRub: 459
     }
 ].reverse();
 
