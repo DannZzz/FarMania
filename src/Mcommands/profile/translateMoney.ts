@@ -44,7 +44,7 @@ export default class TranslateMoney extends MessageCommand {
             if (!_args[0]) return Embed(msg).setError(TextExp(131, sd.language) + "\n\n" + "`@Dann#2523 50\n418794163321789 150`").send(DELETE_TIMEOUT_MESSAGES);
             const member = m.mentions.members.first() || (await client.users.fetch(_args[0])); 
 
-            if (!member) return Embed(msg).setError(TextExp(134, sd.language)).send(DELETE_TIMEOUT_MESSAGES);
+            if (!member || member.id === msg.author.id || ("user" in member ? member.user.bot : member.bot)) return Embed(msg).setError(TextExp(134, sd.language)).send(DELETE_TIMEOUT_MESSAGES);
             
             if (!_args[1] || isNaN(+_args[1]) || +_args[1] < 1) return Embed(msg).setError(TextExp(131, sd.language) + "\n\n" + "`@Dann#2523 50\n418794163321789 150`").send(DELETE_TIMEOUT_MESSAGES);
             const amount = Math.round(+_args[1]);

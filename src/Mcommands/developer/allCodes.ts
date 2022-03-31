@@ -24,7 +24,7 @@ export default class AllCodes extends MessageCommand {
         for (let i = 0; i < codes.length; i+=10) {
             const sliced = codes.slice(i, i+10);;
             const texted = sliced.map(code => {
-                return `**${code._id}** — ${Currency[code.rewardType].emoji}\`${client.util.formatNumber(code.reward)}\` — Макс. исп. \`${code.maxCount || "Неограничено"}\` — Дата дст: ${code.validDate ? client.timestamp(code.validDate.getTime(), "d") : "`Неограничено`"}`
+                return `**${code._id}** — ${Currency[code.rewardType].emoji}\`${client.util.formatNumber(code.reward)}\` — Макс. исп. \`${code?.users?.length || 0}/${code.maxCount || "Неограничено"}\` — Дата дст: ${code.validDate ? client.timestamp(code.validDate.getTime(), "d") : "`Неограничено`"}`
             })
             embeds.push(Embed(msg).setTitle("Коды: " + codes.length).setText(texted.join("\n\n")))
         }
