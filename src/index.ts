@@ -7,8 +7,29 @@ import { glob } from "glob";
 import { promisify } from "util";
 import ConnectMongo from "./database/connect";
 import Chest from "./structures/Chest";
-import { Languages } from "./docs/languages/language_list";
 ConnectMongo();
+
+import { RPC } from "./structures/RPC";
+
+new RPC({
+  details: `Сделай свою ферму!`,
+  state: 'Забирай Джекпот скорее!',
+  startTimestamp: new Date(),
+  largeImageKey: "large",
+  largeImageText: "Да-да",
+  smallImageKey: "small",
+  buttons: [
+    {
+      label: "Сервер Поддержки",
+      url: "https://discord.gg/bAUWFaYdru"
+    },
+    {
+      label: "Добавить FarMania",
+      url: "https://discord.com/api/oauth2/authorize?client_id=950765225328652298&permissions=412317247552&scope=bot"
+    }
+  ],
+  instance: false,
+}).login(Config.RPC_CLIENT_ID)
 
 export const All_Languages = new Chest<string, any>();
 
