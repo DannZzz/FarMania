@@ -136,6 +136,8 @@ enum EnglishData {
     "Participant not found!",
     "Exceeding the limit!",
     "Transfer was successful!",
+    "🔗 Developer's Server",
+    "🔗 Support Server"
 }
 
 export default {
