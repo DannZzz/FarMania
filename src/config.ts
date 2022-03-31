@@ -7,8 +7,6 @@ export const TOKEN: string = "OTU3NjA5MDM1NTM5MDMwMDY2.YkBQ6Q.EVwqLQl735Ie1pkG2G
 export const MONGO: string = "mongodb+srv://DannTest:099075020@botdiscord.hkvvx.mongodb.net/farmmania"
 // ---------------------- EMAIL ----------------------
 export const EMAIL: string = "farmania@inbox.ru";
-
-export const RPC_CLIENT_ID: string = process.env.RPC_CLIENT_ID || "870241413881790514";
 // ---------------------- END ----------------------
 
 // ---------------------- DEVELOPER ----------------------
