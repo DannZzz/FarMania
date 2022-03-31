@@ -3,7 +3,7 @@ import { SlotSymbol, SlotSymbols } from "./Symbols";
 export class SlotMachine {
     readonly symbols = SlotSymbols;
     board: SlotSymbol[][];
-    constructor(readonly size: number = 5) {
+    constructor(readonly width: number = 5, readonly height: number = 3) {
         this.updateBoard();
         this.perfectBoard();
     }
@@ -43,21 +43,21 @@ export class SlotMachine {
             return res;
         }
         
-        if (indexes.length === this.size) return {amount: Math.round(await getCustomValues(sum)), custom};
+        if (indexes.length === this.height) return {amount: Math.round(await getCustomValues(sum)), custom};
         
         // console.log(sum)
         const for3x = [];
         b.forEach((row, j) => {
             
             if (!indexes.includes(j)) {
-                const _defaultSymbol = row[Math.floor(this.size / 2)];
+                const _defaultSymbol = row[Math.floor(this.width / 2)];
         
                 const df = _defaultSymbol;
                 
                 const length = row.filter(s => s === df).length
                 if (length >= df.minimum) {
                     // 4x
-                    for (let i = 0; i + 3 < this.size; i++) {
+                    for (let i = 0; i + 3 < this.width; i++) {
                         if (row[i] === row[i + 1] && row[i] === row[i + 2] && row[i] === row[i + 3]) {
                             sum.push((bet * 2) * row[i].adding)
                             for3x.push(j);
@@ -70,7 +70,7 @@ export class SlotMachine {
                     
                     if (!for3x.includes(j)) {
                         // 3x
-                        for (let i = 0; i + 2 < this.size; i++) {
+                        for (let i = 0; i + 2 < this.width; i++) {
                             // console.log("Checking 3x row [" + j + "]: " + i + " " + (i + 1) + " " + (i + 2));
                             if (row[i] === row[i + 1] && row[i] === row[i + 2]) {
                                 sum.push(bet * row[i].adding)
@@ -88,24 +88,15 @@ export class SlotMachine {
         return {amount: Math.round(await getCustomValues(sum)), custom};
     }
 
-    perfectBoard () { 
-        this.board[0].fill(this.symbols[0]);
-        this.board[1].fill(this.symbols[1]);
-        this.board[2].fill(this.symbols[4]);
-        this.board[3].fill(this.symbols[2]);
-        this.board[4].fill(this.symbols[3]);
-        // this.board[0].fill(this.symbols[0]);
-        // this.board[1].fill(this.symbols[0]);
-        // this.board[2].fill(this.symbols[0]);
-        // this.board[3].fill(this.symbols[0]);
-        // this.board[4].fill(this.symbols[0]);
+    perfectBoard () {
+        this.board.forEach(row => row.fill(this.symbols[this.symbols.length - 1]))
     }
 
     updateBoard() {
         var arr: SlotSymbol[][] = [];
-        for (let i = 0; i < this.size * this.size; i += this.size) {
+        for (let i = 0; i < this.width * this.height; i += this.width) {
             let toAdd = [];
-            for (let j = 0; j < this.size; j++) {
+            for (let j = 0; j < this.width; j++) {
                 toAdd.push(this.randomSymbol())
             }
             arr.push(toAdd)
