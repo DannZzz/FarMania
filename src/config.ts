@@ -17,7 +17,9 @@ export const COST_TO_ADD_FOR_EACH_LEVEL: number = +process.env.COST_TO_ADD_FOR_E
 export const SPACE_FOR_ONE_LEVEL: number = 50; // adding space per level
 export const MAIN_COLLECTOR_TIME: number = (+process.env.MAIN_COLLECTOR_TIME || 35) * 1000; // menu collector time
 
-export const BUY_ANIMALS_X: number[] = [1, 10] // how many animals can be bought at once
+export const BUY_ANIMALS_X: number[] = [1, 10, 100] // how many animals can be bought at once
+
+export const XP_ADD_AT_BUYING_ANIMALS: number = +process.env.XP_ADD_AT_BUYING_ANIMALS || 1;
 
 export const MADE_SELL_NUMBERS: number[] = [1, 10, 100, 0]; // Made selling numbers
 
@@ -72,6 +74,9 @@ export const Rewards = { // rewards from games
     }
 }
 
+export const SUPPORT_SERVER: string = process.env.SUPPORT_SERVER = "https://discord.gg/bAUWFaYdru";
+export const DANN_SERVER: string = process.env.DANN_SERVER = "https://discord.gg/UWxd5XuUdk";
+
 export const SlotsBets: number[] = [1, 5, 20, 50]
 export const ONE_CHIP_IN_DOLLARS: number = 5;
 
@@ -96,15 +101,15 @@ export const COINS_TO_DOLLARS: {amount: number, cost: number}[] = [ // buy coins
 
 export const CREDITS: {amount: number, onRub: number}[] = [ // buy dollars with real money
     {
-        amount: 50,
+        amount: 200,
         onRub: 59
     },
     {
-        amount: 200,
+        amount: 800,
         onRub: 189
     },
     {
-        amount: 850,
+        amount: 3500,
         onRub: 459
     }
 ].reverse();

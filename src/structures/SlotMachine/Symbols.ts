@@ -23,10 +23,10 @@ export class SlotSymbol {
 }
 
 export const SlotSymbols: SlotSymbol[] = [
-    new SlotSymbol("🍌", 2),
-    new SlotSymbol("🍉", 2),
-    new SlotSymbol("🍇", 3),
-    new SlotSymbol("🍒", 4, 4),
+    new SlotSymbol("🍌", 3), // 2
+    new SlotSymbol("🍉", 3), // 2
+    new SlotSymbol("🍇", 4), // 3
+    new SlotSymbol("🍒", 5, 4), // 4
     new SlotSymbol("<:seven:956788885877301259>", undefined, 5, async (lines, userId) => {
         const bot = await findOrCreateOne("bot", {findOption: "main"});
         const jackpot = Math.round(bot.slotJackpot);

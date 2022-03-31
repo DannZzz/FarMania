@@ -19,6 +19,7 @@ export default class EnviromenVariables extends MessageCommand {
         TRANSLATION_DEFAUT : number
         MAIN_COLLECTOR_TIME : number (seconds)
         COST_TO_ADD_FOR_EACH_LEVEL: number
+        XP_ADD_AT_BUYING_ANIMALS : number
         `).send()
     }
 }

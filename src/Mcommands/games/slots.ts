@@ -26,7 +26,7 @@ export default class Slots extends MessageCommand {
     async execute({ client, msg, args, prefix, methods, sd }: MessageCommandRunOptions): Promise<any> {
         if (SlotListener.has(msg.author.id)) return;
         SlotListener.add(msg.author.id)
-        const slot = new SlotMachine(5);
+        const slot = new SlotMachine(5, 3);
         const buttons: MessageButton[] = SlotsBets.map(bet => new MessageButton().setCustomId(`SLOTBET-${bet}`).setLabel(client.util.formatNumber(bet)).setEmoji(Currency.dollars.emoji).setStyle("SECONDARY"));
         buttons.push(
             new MessageButton()

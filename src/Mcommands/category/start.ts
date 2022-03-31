@@ -9,7 +9,7 @@ import { MessageCommand, MessageCommandRunOptions } from "../../structures/Messa
 import { stripIndents } from "common-tags";
 import { Currency, CurrencyType } from "../../docs/currency/Main";
 import { calculateSpace, costForSpaceNextLevel } from "../../docs/levels/space";
-import { DailyGiftsAdding, DELETE_TIMEOUT_MESSAGES, DEVELOPER_ID, EMAIL, UNLOCK_TRANSLATION_LEVEL, OneDay, Rewards, SLOTS_JACKPOT_BOOST, SPACE_FOR_ONE_LEVEL } from "../../config";
+import { DailyGiftsAdding, DELETE_TIMEOUT_MESSAGES, DEVELOPER_ID, EMAIL, UNLOCK_TRANSLATION_LEVEL, OneDay, Rewards, SLOTS_JACKPOT_BOOST, SPACE_FOR_ONE_LEVEL, DANN_SERVER, SUPPORT_SERVER } from "../../config";
 import { ShopInterface } from "../../structures/ShopInterface";
 import { ServerSettings } from "../../structures/ServerSettings";
 import { Rate } from "../../structures/Rate";
@@ -504,6 +504,8 @@ export default class Start extends MessageCommand {
                         ${TextExp(117, sd.language)} \`${client.util.formatNumber(client.guilds.cache.size)}\`
                         ${TextExp(118, sd.language)} \`${EMAIL}\`
                         ${TextExp(119, sd.language)}
+                        **[${TextExp(137, sd.language)}](${DANN_SERVER})**
+                        **[${TextExp(138, sd.language)}](${SUPPORT_SERVER})**
 
                         ${TextExp(113, sd.language)}
                         `) as MessageEmbed;

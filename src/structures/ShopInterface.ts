@@ -7,9 +7,9 @@ import Text, { TextExp } from "../docs/languages/createText";
 import { Animals } from "../docs/animals/Animals_list";
 import { Animal } from "../docs/animals/Animal";
 import { Currency, CurrencyType } from "../docs/currency/Main";
-import { changeMoney, findOrCreateOne, models } from "../database/db";
+import { changeMoney, changeXp, findOrCreateOne, models } from "../database/db";
 import { calculateSpace } from "../docs/levels/space";
-import { BUY_ANIMALS_X, COINS_TO_DOLLARS, CREDITS, DailyGiftsAdding, DELETE_TIMEOUT_MESSAGES, DONATE_URLS, ERROR_EMOJI, OneDay, PREFIX, SUCCESS_EMOJI } from "../config";
+import { BUY_ANIMALS_X, COINS_TO_DOLLARS, CREDITS, DailyGiftsAdding, DELETE_TIMEOUT_MESSAGES, DONATE_URLS, ERROR_EMOJI, OneDay, PREFIX, SUCCESS_EMOJI, XP_ADD_AT_BUYING_ANIMALS } from "../config";
 import { FarmInterface } from "./FarmInterface";
 import { DateTime } from "./DateAndTime";
 import { Functions } from "./Functions";
@@ -135,7 +135,8 @@ export class ShopInterface {
                                                                 if ((anim.cost.amount * number) > myData[anim.cost.type]) return Embed(a.msg).setError(TextExp(6, a.sd.language)).send(DELETE_TIMEOUT_MESSAGES);
                                                                 await Promise.all([
                                                                     FarmInterface.changeAnimalCountInData(a.user.id, anim.name, number),
-                                                                    changeMoney(anim.cost.type, a.user.id, -(anim.cost.amount * number))
+                                                                    changeMoney(anim.cost.type, a.user.id, -(anim.cost.amount * number)),
+                                                                    changeXp(a.user.id, anim.spaceTake * number * XP_ADD_AT_BUYING_ANIMALS)
                                                                 ])
                                                                 return Embed(a.msg).setSuccess(TextExp(26, a.sd.language)).send(DELETE_TIMEOUT_MESSAGES);
                                                             }
