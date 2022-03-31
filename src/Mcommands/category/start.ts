@@ -181,7 +181,7 @@ export default class Start extends MessageCommand {
                                             async action() {
                                                 const myData = await findOrCreateOne("users", { findOption: msg.author.id });
                                                 const myDataGame = await findOrCreateOne("games", { findOption: msg.author.id });
-                                                const cost = costForSpaceNextLevel(myDataGame.spaceLevel || 1).coins;
+                                                const cost = costForSpaceNextLevel(myDataGame.spaceLevel || 1).coins * 5;
                                                 if (myData.coins < cost) {
                                                     return Embed(msg).setError(TextExp(6, sd.language)).send(DELETE_TIMEOUT_MESSAGES);
                                                 }
