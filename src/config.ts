@@ -71,6 +71,16 @@ export const Rewards = { // rewards from games
     mathGame: {
         type: "coins" as CurrencyType,
         amount: 1000
+    },
+    cardGame: {
+        equals: {
+            type: "coins" as CurrencyType,
+            amount: 5000
+        },
+        other: {
+            type: "coins" as CurrencyType,
+            amount: 1000
+        }
     }
 }
 

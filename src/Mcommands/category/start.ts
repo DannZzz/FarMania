@@ -481,6 +481,36 @@ export default class Start extends MessageCommand {
                                     }
                                 }
                             }
+                        },
+                        {
+                            button: new MessageButton()
+                                .setCustomId("STARTCARDGAME")
+                                .setStyle("SECONDARY")
+                                .setLabel(TextExp(146, sd.language))
+                                .setEmoji("🃏"),
+                            nextPage: true,
+                            async action(): Promise<Page<MessageEmbed>> {
+                                return {
+                                    async embed() {
+                                        return Embed(msg).setText(TextExp(147, sd.language)) as MessageEmbed;
+                                    },
+                                    type: "Group",
+                                    buttons: async () => {
+                                        return [
+                                            {
+                                                button: new MessageButton()
+                                                    .setStyle("PRIMARY")
+                                                    .setCustomId("START-CG")
+                                                    .setLabel(TextExp(88, sd.language)),
+                                                async action() {
+                                                    const command = client.messageCommands.get("card-game") as MessageCommand;
+                                                    command.execute({client, msg, args, methods, sd, prefix});
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
                         }
                     ]
                 }

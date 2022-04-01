@@ -137,7 +137,16 @@ enum EnglishData {
     "Exceeding the limit!",
     "Transfer was successful!",
     "🔗 Developer's Server",
-    "🔗 Support Server"
+    "🔗 Support Server",
+    "Smaller",
+    "Equal",
+    "Bigger",
+    "The next card will be...",
+    "Your card:",
+    "New card:",
+    "You lost.",
+    "Cards",
+    "You are given one card and you need to guess if the next card will be bigger, smaller or equal to yours!",
 }
 
 export default {

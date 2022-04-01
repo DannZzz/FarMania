@@ -14,7 +14,7 @@ export type MessageCommandRunOptions = {
 export class MessageCommand {
     readonly name: string;
     readonly aliases?: string[];
-    readonly private?: true;
+    readonly private?: boolean;
     readonly description: string;
     readonly disabled?: boolean;
     readonly permissions?: PermissionResolvable;
@@ -31,6 +31,7 @@ export class MessageCommand {
         this.developer = Boolean(options.developer);
         this.hideInHelp = Boolean(options.hideInHelp);
         this.permissions = options.permissions || [];
+        this.private = Boolean(options.private);
     }
 
     protected getCommand(): MessageCommand {

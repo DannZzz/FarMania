@@ -86,6 +86,7 @@ export class InterfaceEdition<T extends MessageEmbed> {
 
 
             collector.on("collect", async b => {
+                await b.deferUpdate();
                 clicked = true;
                 collector.stop();
                 if(b.isSelectMenu()) {
@@ -150,8 +151,7 @@ export class InterfaceEdition<T extends MessageEmbed> {
                     }
 
                 }
-                
-                await b.deferUpdate();
+            
             })
 
         } else {
