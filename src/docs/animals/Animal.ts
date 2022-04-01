@@ -34,4 +34,5 @@ export type AnimalNames =
 "WhiteTiger" |
 "Shark" |
 "Dolphin" |
-"Elephant"
+"Elephant" |
+"Velociraptor"

@@ -55,7 +55,7 @@ export class FarmInterface {
 
         const embeddescription: string[] = []
         for (let i of animals) {
-            embeddescription.push(`${(Animals[i.name] as Animal).emoji}\`x${Util.formatNumber(i.count)}\` ${(Animals[i.name] as Animal).gives ? `--> ${Made[(Animals[i.name] as Animal).gives].emoji}\`x${calculateMadeCount(i.name, i.madeGot, i.count)}\`` : ""}`);
+            if (i.count > 0) embeddescription.push(`${(Animals[i.name] as Animal).emoji}\`x${Util.formatNumber(i.count)}\` ${(Animals[i.name] as Animal).gives ? `--> ${Made[(Animals[i.name] as Animal).gives].emoji}\`x${calculateMadeCount(i.name, i.madeGot, i.count)}\`` : ""}`);
         }
 
 
@@ -84,6 +84,7 @@ export class FarmInterface {
                             const options: MessageSelectOptionData[] = [];
                             for (let i of animals) {
                                 const count = i.count
+                                if (count <= 0) continue;
                                 const animal = Animals[i.name] as Animal;
                                 options.push(
                                     {
@@ -133,7 +134,7 @@ export class FarmInterface {
                     for (let i of animals) {
                         const count = i.count;
                         const anim = Animals[i.name] as Animal;
-                        if (!anim.gives || Animals[i.name].makingTimeAndLost && Date.now() - i.madeGot.getTime() < ms(Animals[i.name].makingTimeAndLost as string)) continue;
+                        if (count <= 0 || !anim.gives || Animals[i.name].makingTimeAndLost && Date.now() - i.madeGot.getTime() < ms(Animals[i.name].makingTimeAndLost as string)) continue;
                         const newD = await findOrCreateOne("games", { findOption: a.user.id });
                         const index = newD.madeData.findIndex(a => a.name === anim.gives);
                         const toAdd = calculateMadeCount(i.name, i.madeGot, count);
@@ -353,6 +354,20 @@ export class FarmInterface {
                     }
                 }
             });
+        }
+    }
+
+    /**
+     * Remove animals who has count less than 1
+     * 
+     * @param userId user Id
+     */
+    static async removeMinus (userId: string) {
+        const data = await findOrCreateOne("games", {findOption: userId, denyCreation: true});
+        if (data) {
+            const animals = data.animals as AnimalData[];
+            const mapped = animals.filter(a => a.count > 0);
+            if (animals.length !== mapped.length) await models.games.updateOne({_id: userId}, {$set: {animals: mapped}})
         }
     }
 }

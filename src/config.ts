@@ -35,7 +35,7 @@ export const TRANSLATION_ADD_PER_LEVEL: number = (+process.env.TRANSLATION_ADD_P
 
 export const UNLOCK_TRANSLATION_LEVEL: number = (+process.env.UNLOCK_TRANSLATION_LEVEL) || 15;
 
-export const TRANSLATION_DEFAULT: number = ((+process.env.TRANSLATION_DEFAUT) || 300) - UNLOCK_TRANSLATION_LEVEL * TRANSLATION_ADD_PER_LEVEL
+export const TRANSLATION_DEFAULT: number = ((+process.env.TRANSLATION_DEFAULT) || 300) - UNLOCK_TRANSLATION_LEVEL * TRANSLATION_ADD_PER_LEVEL
 
 export const TicTacToeCooldown: number = 1000 * 60 * 20; // Cooldown after playing ttt with real member
 
