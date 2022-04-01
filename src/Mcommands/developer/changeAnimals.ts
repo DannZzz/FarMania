@@ -33,7 +33,8 @@ export default class ChangeAnimals extends MessageCommand {
             const a = Animals[i] as Animal;
             options.push({
                 value: a.name,
-                label: a.name
+                label: a.name,
+                emoji: a.emoji
             })
         }
 
