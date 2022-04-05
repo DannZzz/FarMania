@@ -2,6 +2,7 @@ import { Util } from "client-discord";
 import { DataResolver } from "discord.js";
 import { findOrCreateOne } from "../database/db";
 import { Currency } from "../docs/currency/Main";
+import { runReputationRewards } from "../structures/DailyRewardsForTopers";
 import { Event, EventRunOptions } from "../structures/Event";
 
 export default class Ready extends Event {
@@ -24,7 +25,7 @@ export default class Ready extends Event {
             i++
         }
         change()
-        
+        runReputationRewards()
         setInterval(change, 60 * 1000)
         console.log(client.user.tag + " - is ready!")
     }

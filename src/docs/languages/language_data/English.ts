@@ -28,7 +28,7 @@ enum EnglishData {
     "Purchased Successfully!",
     "For details",
     "Credits",
-    "In order to receive your credits correctly, enter user's ID in the message field.\nCredits will be paid out within a few hours!",
+    "In order to receive your products correctly, enter user's ID in the message field.\nProducts will be paid out within a few hours!",
     "Buy",
     "Collect All",
     "All items successfully collected!",
@@ -147,6 +147,8 @@ enum EnglishData {
     "You lost.",
     "Cards",
     "You are given one card and you need to guess if the next card will be bigger, smaller or equal to yours!",
+    "Everyday, around of 00:00 (Moscow), first 3 users will get:",
+
 }
 
 export default {

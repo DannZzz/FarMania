@@ -10,6 +10,7 @@ import { Pig } from "./List/Pig";
 import { Shark } from "./List/Shark";
 import { Sheep } from "./List/Sheep";
 import { Tiger } from "./List/Tiger";
+import { Unicorn } from "./List/Unicorn";
 import { Velociraptor } from "./List/Velociraptor";
 import { WhiteTiger } from "./List/WhiteTIger";
 import { Zebra } from "./List/Zebra";
@@ -29,5 +30,6 @@ export const Animals = {
     Shark,
     Dolphin,
     Elephant,
-    Velociraptor
+    Velociraptor,
+    Unicorn,
 }

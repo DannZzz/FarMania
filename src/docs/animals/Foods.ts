@@ -14,6 +14,13 @@ type FoodType = {[k: string]: {
 
 export type Made = FoodType
 export const Made = {
+    unicorn_horn: {
+        emoji: "<:unicorn_horn:960881768116940810>",
+        cost: {
+            type: "coins" as CurrencyType,
+            amount: 1_500_000
+        }
+    },
     shark_trunk: {
         emoji: "<:shark_trunk:958750276599300187>",
         cost: {

@@ -31,6 +31,12 @@ export const DELETE_TIMEOUT_MESSAGES: number = 5000; // deletes answers (message
 
 export const OneDay: number = 86400000; // One day in milliseconds
 
+export const REPUTATION_REWARDS = [ // Daily toper's rewards
+    +process.env.REPUTATION_REWARDS_0 || 1000,
+    +process.env.REPUTATION_REWARDS_1 || 500,
+    +process.env.REPUTATION_REWARDS_2 || 200,
+]
+
 export const TRANSLATION_ADD_PER_LEVEL: number = (+process.env.TRANSLATION_ADD_PER_LEVEL) || 20;
 
 export const UNLOCK_TRANSLATION_LEVEL: number = (+process.env.UNLOCK_TRANSLATION_LEVEL) || 15;

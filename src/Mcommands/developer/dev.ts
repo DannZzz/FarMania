@@ -17,7 +17,7 @@ export default class addCoins extends MessageCommand {
     async execute({ client, msg, args, prefix, methods, sd }: MessageCommandRunOptions): Promise<any> {
         
         
-        const data = await findOrCreateOne("games", {findOption: msg.author.id});
+        const data = await findOrCreateOne("bot", {findOption: "main"});
         console.log(data)
         // await models.games.deleteMany()
     }

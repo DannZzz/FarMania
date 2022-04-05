@@ -57,7 +57,7 @@ export class ShopInterface {
                         const arr: string[][] = [];
                         for (let i in Animals) {
                             const an = Animals[i] as Animal;
-                            arr.push([`${an.emoji}\`x1\` — ${an.special ? TextExp(93, a.sd.language) : `${Currency[an.cost.type].emoji}\`${a.client.util.formatNumber(an.cost.amount)}\``}`]);
+                            arr.push([`${an.emoji}\`x1\` — ${an.special ? TextExp(93, a.sd.language) : `${an.donate ? `\`${an.donate.amount} ${an.donate.type}\`` : `${Currency[an.cost.type].emoji}\`${a.client.util.formatNumber(an.cost.amount)}\``}`}`]);
 
                         }
 
@@ -104,11 +104,12 @@ export class ShopInterface {
                                                         ${anim.needLevel ? `${TextExp(125, a.sd.language)}: ⭐\`${a.client.util.formatNumber(anim.needLevel)}\`` : ""}
                                                         ${anim.special ? SUCCESS_EMOJI : ERROR_EMOJI} ${TextExp(94, a.sd.language)}
                                                         ${TextExp(68, a.sd.language)} 📐\`${a.client.util.formatNumber(anim.spaceTake)}\`
-                                                        ${TextExp(18, a.sd.language)} ${Currency[anim.cost.type].emoji}\`${a.client.util.formatNumber(anim.cost.amount)}\`
+                                                        ${TextExp(18, a.sd.language)} ${anim.donate ? `\`${anim.donate.amount} ${anim.donate.type}\`` : `${Currency[anim.cost.type].emoji}\`${a.client.util.formatNumber(anim.cost.amount)}\``}
                                                         ${TextExp(43, a.sd.language)} ${Currency.coins.emoji}\`${a.client.util.formatNumber(getRealCost(anim.cost.type, anim.cost.amount))}\`
                                                         ${TextExp(61, a.sd.language)}: ✨\`${a.client.util.formatNumber(anim.reputation)}\`
                                                         ${!anim.gives ? "" :`${TextExp(36, a.sd.language)} ${Made[anim.gives].emoji} --> ${Currency[Made[anim.gives].cost.type].emoji}\`${a.client.util.formatNumber(Made[anim.gives].cost.amount)}\`
-                                                        ${TextExp(37, a.sd.language)} \`${DateTime.formatTime(DateTime.getTimeData(ms(anim.makingTimeAndLost), 0), false, Functions.getTimeLang(a.sd.language))}\``}`) as MessageEmbed;
+                                                        ${TextExp(37, a.sd.language)} \`${DateTime.formatTime(DateTime.getTimeData(ms(anim.makingTimeAndLost), 0), false, Functions.getTimeLang(a.sd.language))}\``}
+                                                        ${anim.donate ? "\n" + TextExp(29, a.sd.language) : ""}`) as MessageEmbed;
                                                 },
                                                 customId: "q",
                                                 buttonLabel: "a",
@@ -117,8 +118,24 @@ export class ShopInterface {
                                                 description: "lol",
                                                 async buttons() {
                                                     const data = await findOrCreateOne("users", { findOption: a.user.id });
-                                                    const allow = (!anim.special && anim.cost.amount <= data[anim.cost.type])
+                                                    if (anim.donate) {
+                                                        return [
+                                                            {
+                                                                button: new MessageButton()
+                                                                    .setURL(DONATE_URLS.ru)
+                                                                    .setEmoji(anim.emoji)
+                                                                    .setLabel(TextExp(30, a.sd.language))
+                                                                    .setStyle("LINK"),
+                                                                async action() {}
+                                                            }
+                                                        ]
+                                                        
+                                                    }
+                                                    
                                                     const buttons = BUY_ANIMALS_X.map(number => {
+                                                        const allow = (!anim.special && (anim.cost.amount * number) <= data[anim.cost.type]);
+
+                                                        
                                                         return {
                                                             button: new MessageButton()
                                                                 .setCustomId("BUYANIMAL-" + number)
@@ -126,6 +143,7 @@ export class ShopInterface {
                                                                 .setStyle(allow ? "SUCCESS" : "DANGER")
                                                                 .setDisabled(allow ? false : true),
                                                             async action() {
+                                                                
                                                                 const myData = await findOrCreateOne("users", { findOption: a.user.id });
                                                                 const myDataGame = await findOrCreateOne("games", { findOption: a.user.id });
                                                                 const level = findLevel(myData.xp || 0);

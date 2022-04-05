@@ -1,5 +1,7 @@
-import { Client } from "client-discord";
+import { Client, Util } from "client-discord";
+import { stripIndents } from "common-tags";
 import { Guild, Message, MessageButton, MessageEmbed, User } from "discord.js";
+import { REPUTATION_REWARDS } from "../config";
 import { findOrCreateOne, models } from "../database/db";
 import { GameModel } from "../database/models/GameModel";
 import { ServerModel } from "../database/models/ServerModel";
@@ -94,7 +96,13 @@ export class Rate {
 
                     return `**${i + 1}.** ${name} — ✨\`${a.client.util.formatNumber(Functions.calculateReputation(data.animals))}\``
                 }));
-                return Embed(a.msg).setText(`🏆 | ${a.t(58)} ✨\n\n${texted?.length > 0 ? texted.join("\n") : a.t(56)}`) as MessageEmbed;
+                return Embed(a.msg).setTitle(`🏆 | ${a.t(58)} ✨`).setText(stripIndents`
+                ${a.t(148)}
+                **#1** — ${Currency.dollars.emoji}\`${Util.formatNumber(REPUTATION_REWARDS[0])}\`
+                **#2** — ${Currency.dollars.emoji}\`${Util.formatNumber(REPUTATION_REWARDS[1])}\`
+                **#3** — ${Currency.dollars.emoji}\`${Util.formatNumber(REPUTATION_REWARDS[2])}\`
+
+                ${texted?.length > 0 ? texted.join("\n") : a.t(56)}`) as MessageEmbed;
             },
             customId: "a",
             description: "a",

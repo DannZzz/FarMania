@@ -16,6 +16,10 @@ export interface Animal {
     readonly reputation: number;
     readonly spaceTake: number;
     readonly needLevel?: number;
+    readonly donate?: {
+        type: "RUB",
+        amount: number
+    }
 }
 
 export type AnimalFamily = "insect" | "cattle" | "reptile" | "vip" | "predator" | "ocean";
@@ -35,4 +39,5 @@ export type AnimalNames =
 "Shark" |
 "Dolphin" |
 "Elephant" |
-"Velociraptor"
+"Velociraptor" |
+"Unicorn"
