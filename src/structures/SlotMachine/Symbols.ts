@@ -31,7 +31,7 @@ export const SlotSymbols: SlotSymbol[] = [
         const bot = await findOrCreateOne("bot", {findOption: "main"});
         const jackpot = Math.round(bot.slotJackpot);
         await models.bot.updateOne({_id: "main"}, {$set: {
-            slotJackpot: SLOTS_DEFAULT_JACKPOT,
+            slotJackpot: Math.round(jackpot / 10),
             lastWinner: userId,
             lastWinningJackpot: jackpot * lines,
             winningLines: lines
