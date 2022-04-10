@@ -8,6 +8,7 @@ import { Languages } from "../../docs/languages/language_list";
 import { Embed } from "../../structures/Embed";
 import { FarmInterface } from "../../structures/FarmInterface";
 import { InterfaceEdition } from "../../structures/InterfaceEdition";
+import { Listener } from "../../structures/Listener";
 import { MessageCommand, MessageCommandRunOptions } from "../../structures/MessageCommand";
 import { SlotMachine } from "../../structures/SlotMachine/SlotMachine";
 import { delay } from "../category/start";
@@ -19,7 +20,7 @@ export default class Slots extends MessageCommand {
         super({
             name: "slots",
             description: "lol",
-            private: true
+            // private: true
         })
     }
 
@@ -93,6 +94,7 @@ async function createSlotBet(id: string, type: "dollars" | "chips" , bet: number
     await Promise.all([
         changeMoney(type, id, -bet),
         changeXp(id, bet),
+        new Listener(id, data).update("Chips", type === "chips" ? 1 : 0),
         models.bot.updateOne({_id: "main"}, {$inc: {slotJackpot: Math.ceil((type === "chips" ?  ONE_CHIP_IN_DOLLARS : bet) * (SLOTS_JACKPOT_BOOST || 1))}})
     ])
     return true;

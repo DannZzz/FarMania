@@ -102,30 +102,30 @@ export const DONATE_URLS = {
 }; 
 export const COINS_TO_DOLLARS: {amount: number, cost: number}[] = [ // buy coins with dollars
     {
-        amount: 50_000,
+        amount: 250_000,
         cost: 10
     },
     {
-        amount: 300_000,
+        amount: 1_500_000,
         cost: 50
     },
     {
-        amount: 1_000_000,
+        amount: 5_000_000,
         cost: 175
     }
 ].reverse();
 
 export const CREDITS: {amount: number, onRub: number}[] = [ // buy dollars with real money
     {
-        amount: 200,
+        amount: 20_000,
         onRub: 59
     },
     {
-        amount: 800,
+        amount: 80_000,
         onRub: 189
     },
     {
-        amount: 3500,
+        amount: 350_000,
         onRub: 459
     }
 ].reverse();

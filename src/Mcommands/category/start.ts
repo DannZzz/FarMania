@@ -9,7 +9,7 @@ import { MessageCommand, MessageCommandRunOptions } from "../../structures/Messa
 import { stripIndents } from "common-tags";
 import { Currency, CurrencyType } from "../../docs/currency/Main";
 import { calculateSpace, costForSpaceNextLevel } from "../../docs/levels/space";
-import { DailyGiftsAdding, DELETE_TIMEOUT_MESSAGES, DEVELOPER_ID, EMAIL, UNLOCK_TRANSLATION_LEVEL, OneDay, Rewards, SLOTS_JACKPOT_BOOST, SPACE_FOR_ONE_LEVEL, DANN_SERVER, SUPPORT_SERVER } from "../../config";
+import { DailyGiftsAdding, DELETE_TIMEOUT_MESSAGES, DEVELOPER_ID, EMAIL, UNLOCK_TRANSLATION_LEVEL, OneDay, Rewards, SLOTS_JACKPOT_BOOST, SPACE_FOR_ONE_LEVEL, DANN_SERVER, SUPPORT_SERVER, SUCCESS_EMOJI } from "../../config";
 import { ShopInterface } from "../../structures/ShopInterface";
 import { ServerSettings } from "../../structures/ServerSettings";
 import { Rate } from "../../structures/Rate";
@@ -24,6 +24,9 @@ import { jackpotString } from "../games/slots";
 import { RedeemCode } from "../../structures/RedeemCodes";
 import { checkLevel, findLevel } from "../../docs/levels/levels";
 import { StarImage } from "../../structures/LevelStar";
+import { Achievements, findAchievement, updateDefault } from "../../docs/levels/achievemets";
+import { Listener } from "../../structures/Listener";
+import { Animals } from "../../docs/animals/Animals_list";
 
 const redeemCodeListener = new Set();
 
@@ -297,6 +300,69 @@ export default class Start extends MessageCommand {
                                 const Rep = new ReputationLevel(client, msg, sd)
                                 await Rep.collectAll();
                             }
+                        },
+                        {
+                            button: new MessageButton()
+                                .setCustomId("OpenAchievements")
+                                .setLabel(TextExp(150, sd.language))
+                                .setStyle("PRIMARY")
+                                .setEmoji("🌟"),
+                            nextPage: true,
+                            async action(): Promise<Page<MessageEmbed>> {
+                                return {
+                                    async embed() {
+                                        await updateDefault(msg.author.id);
+
+                                        const _Listener = new Listener(msg.author.id, await findOrCreateOne("users", {findOption: msg.author.id}));
+                                        // console.log(_Listener);
+
+                                        const texts: string[] = [];
+
+                                        for (let a of Achievements) {
+                                            const prog = Math.round(_Listener.get(a.name, true));
+                                            const level = Functions.findEqualAchievementLevel(a.name, prog);
+                                            const ach = a.list[level] ? a.list[level] : a.list.at(-1);
+
+                                            const emoji = ach.reward in Currency ? Currency[ach.reward].emoji : Animals[ach.reward].emoji;
+                                            
+                                            texts.push(
+                                                stripIndents`
+                                                **${TextExp(151, sd.language)} ${ level !== a.list.length ? `${client.util.formatNumber(prog)}/${client.util.formatNumber(ach.need)}` : SUCCESS_EMOJI}**
+                                                ${TextExp(a.textIndex, sd.language)} ${a.emoji} \`${client.util.formatNumber(ach.need)}\`
+                                                ${TextExp(152, sd.language)}: ${emoji}\`${client.util.formatNumber(ach.rewardAmount)}\`
+                                                `
+                                            )
+                                        }
+                                        
+                                        return Embed(msg)
+                                            .setTitle(`🌟 | ${TextExp(150, sd.language)}`)
+                                            .setText(await FarmInterface.moneyInterface(msg.author.id)+ "\n\n" + texts.join("\n\n"))
+                                    },
+                                    buttons: async () => {
+                                        const can = await Functions.checkAllAchievements(msg.author.id)
+                                        return [
+                                            {
+                                                button: new MessageButton()
+                                                    .setCustomId("CollectAll")
+                                                    .setLabel(TextExp(92, sd.language))
+                                                    .setStyle(can ? "SUCCESS" : "DANGER")
+                                                    .setDisabled(can ? false : true),
+                                                async action() {
+                                                    const data = await findOrCreateOne("users", {findOption: msg.author.id})
+                                                    const l = new Listener(msg.author.id, data);
+
+                                                    for (let ach of Achievements) {
+                                                        if (ach.disabled) continue;
+                                                        const achievement = data.achievements.find(a => a.name === ach.name);
+                                                        await Functions.updateWhileDoneAchievemt(msg, msg.author.id, ach.name, Functions.findEqualAchievementLevel(ach.name, l.get(ach.name, true)), achievement?.level || 0)
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    type: "Group",
+                                }
+                            },
                         }
                     ]
                 }

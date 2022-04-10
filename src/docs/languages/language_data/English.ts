@@ -148,7 +148,10 @@ enum EnglishData {
     "Cards",
     "You are given one card and you need to guess if the next card will be bigger, smaller or equal to yours!",
     "Everyday, around of 00:00 (Moscow), first 3 users will get:",
-
+    "Spin",
+    "Achievements",
+    "Progress",
+    "Reward",
 }
 
 export default {

@@ -18,7 +18,9 @@ import { Made } from "../docs/animals/Foods";
 import ms from "ms";
 import { getRealCost } from "../docs/currency/selling";
 import { findLevel } from "../docs/levels/levels";
-
+import { Listener } from "./Listener";
+import { findAchievement, AchievementName } from "../docs/levels/achievemets";
+ 
 export class ShopInterface {
     private user: User;
     constructor(
@@ -143,7 +145,6 @@ export class ShopInterface {
                                                                 .setStyle(allow ? "SUCCESS" : "DANGER")
                                                                 .setDisabled(allow ? false : true),
                                                             async action() {
-                                                                
                                                                 const myData = await findOrCreateOne("users", { findOption: a.user.id });
                                                                 const myDataGame = await findOrCreateOne("games", { findOption: a.user.id });
                                                                 const level = findLevel(myData.xp || 0);
@@ -156,6 +157,11 @@ export class ShopInterface {
                                                                     changeMoney(anim.cost.type, a.user.id, -(anim.cost.amount * number)),
                                                                     changeXp(a.user.id, anim.spaceTake * number * XP_ADD_AT_BUYING_ANIMALS)
                                                                 ])
+
+                                                                if (findAchievement(anim.name as AchievementName)) {
+                                                                    await (new Listener(a.user.id, myData)).update(anim.name as AchievementName, number)
+                                                                }
+                                                                
                                                                 return Embed(a.msg).setSuccess(TextExp(26, a.sd.language)).send(DELETE_TIMEOUT_MESSAGES);
                                                             }
                                                         }

@@ -4,11 +4,12 @@ import { EmojiResolvable, Message, MessageActionRow, MessageAttachment, MessageB
 import { MAIN_COLLECTOR_TIME } from "../config";
 import { ButtonEmojis } from "../docs/emojis/emoji";
 import Text from "../docs/languages/createText";
+import { EmbedMessage } from "./Embed";
 export const Active = new Set();
 
 // Typing
 export interface Page<T> {
-    embed(): Promise<MessageEmbed>;
+    embed(): Promise<MessageEmbed | EmbedMessage>;
     emoji?: EmojiResolvable;
     buttonLabel?: string;
     buttonType?: MessageButtonStyle;
