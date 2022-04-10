@@ -20,7 +20,7 @@ export default class Slots extends MessageCommand {
         super({
             name: "slots",
             description: "lol",
-            // private: true
+            private: true
         })
     }
 
