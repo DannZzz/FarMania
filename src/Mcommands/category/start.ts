@@ -9,7 +9,7 @@ import { MessageCommand, MessageCommandRunOptions } from "../../structures/Messa
 import { stripIndents } from "common-tags";
 import { Currency, CurrencyType } from "../../docs/currency/Main";
 import { calculateSpace, costForSpaceNextLevel } from "../../docs/levels/space";
-import { DailyGiftsAdding, DELETE_TIMEOUT_MESSAGES, DEVELOPER_ID, EMAIL, UNLOCK_TRANSLATION_LEVEL, OneDay, Rewards, SLOTS_JACKPOT_BOOST, SPACE_FOR_ONE_LEVEL, DANN_SERVER, SUPPORT_SERVER, SUCCESS_EMOJI } from "../../config";
+import { DailyGiftsAdding, DELETE_TIMEOUT_MESSAGES, DEVELOPER_ID, EMAIL, UNLOCK_TRANSLATION_LEVEL, OneDay, Rewards, SLOTS_JACKPOT_BOOST, SPACE_FOR_ONE_LEVEL, DANN_SERVER, SUPPORT_SERVER, SUCCESS_EMOJI, BlackJackBets } from "../../config";
 import { ShopInterface } from "../../structures/ShopInterface";
 import { ServerSettings } from "../../structures/ServerSettings";
 import { Rate } from "../../structures/Rate";
@@ -27,6 +27,7 @@ import { StarImage } from "../../structures/LevelStar";
 import { Achievements, findAchievement, updateDefault } from "../../docs/levels/achievemets";
 import { Listener } from "../../structures/Listener";
 import { Animals } from "../../docs/animals/Animals_list";
+import { BlackJack } from "../../structures/BlackJack";
 
 const redeemCodeListener = new Set();
 
@@ -574,6 +575,37 @@ export default class Start extends MessageCommand {
                                                 }
                                             }
                                         ]
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            button: new MessageButton()
+                                .setCustomId("STARTBLACKJACK")
+                                .setStyle("SECONDARY")
+                                .setLabel(TextExp(162, sd.language)),
+                            nextPage: true,
+                            async action (): Promise<Page<MessageEmbed>> {
+                                return {
+                                    async embed() {
+                                        return Embed(msg).setText(await FarmInterface.moneyInterface(msg.author.id) + "\n\n" + TextExp(163, sd.language))
+                                    },
+                                    type: "Group",
+                                    buttons: async () => {
+                                        return BlackJackBets.map(bet => {
+                                            return {
+                                                button: new MessageButton().setCustomId(`BJBET-${bet}`).setLabel(`${client.util.formatNumber(bet)}`).setEmoji(Currency.dollars.emoji).setStyle("SECONDARY"),
+                                                async action() {
+                                                    if (BlackJack.hasUser(msg.author.id)) return;
+                                                    const command = client.messageCommands.get("blackjack") as MessageCommand;
+                                                    const fn = await command.execute({client, msg, args, methods, sd, prefix});
+                                                    const us = await findOrCreateOne("users", {findOption: msg.author.id});
+                                                    if (us.dollars < bet) return Embed(msg).setError(`${TextExp(25, sd.language)} ${Currency.dollars.emoji}`).send(DELETE_TIMEOUT_MESSAGES);
+                                                    await changeMoney("dollars", msg.author.id, -bet)
+                                                    fn(bet);
+                                                }
+                                            }
+                                        })
                                     }
                                 }
                             }

@@ -3,7 +3,7 @@ import { AnimalNames } from "../animals/Animal";
 import { EmojiResolvable } from "discord.js";
 import { Animals } from "../animals/Animals_list";
 import { findOrCreateOne, models } from "../../database/db";
-export type AchievementName = "Chips" | "Elephant";
+export type AchievementName = "Chips" | "Elephant" | "Blackjack";
 
 export type Achievements = ReadonlyArray<{
     name: AchievementName;
@@ -57,6 +57,28 @@ export const Achievements: Achievements = [
                 need: 1000, // 1000
                 reward: "Unicorn",
                 rewardAmount: 3
+            }
+        ]
+    },
+    {
+        name: "Blackjack",
+        textIndex: 165,
+        emoji: "",
+        list: [
+            {
+                need: 100,
+                reward: "dollars",
+                rewardAmount: 2000
+            },
+            {
+                need: 500,
+                reward: "dollars",
+                rewardAmount: 5000
+            },
+            {
+                need: 5000,
+                reward: "dollars",
+                rewardAmount: 75000
             }
         ]
     }

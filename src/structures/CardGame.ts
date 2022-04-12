@@ -1,7 +1,7 @@
 type Card = {number: number, interface: string};
 export type FullCard = { type: string; card: Card };
 
-class Cards {
+export class Cards {
     protected readonly _types: ReadonlyArray<string> = ["♥", "♦", "♠", "♣"]
     
     protected readonly _cards: ReadonlyArray<Card> = [

@@ -93,8 +93,9 @@ export const Rewards = { // rewards from games
 export const SUPPORT_SERVER: string = process.env.SUPPORT_SERVER = "https://discord.gg/bAUWFaYdru";
 export const DANN_SERVER: string = process.env.DANN_SERVER = "https://discord.gg/UWxd5XuUdk";
 
-export const SlotsBets: number[] = [1, 5, 20, 50]
-export const ONE_CHIP_IN_DOLLARS: number = 5;
+export const SlotsBets: number[] = [5, 25, 100, 250];
+export const BlackJackBets: number[] = [5, 25, 100, 250]
+export const ONE_CHIP_IN_DOLLARS: number = 25;
 
 // ---------------------- CREDITS ----------------------
 export const DONATE_URLS = {

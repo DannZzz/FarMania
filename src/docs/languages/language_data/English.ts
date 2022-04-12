@@ -152,6 +152,19 @@ enum EnglishData {
     "Achievements",
     "Progress",
     "Reward",
+    "Your move!",
+    "Wait!\n**Dealer's** turn",
+    "One more card",
+    "Enough",
+    "You have Blackjack!",
+    "**Dealer** has exceeded 21!",
+    "You have more, congrats!",
+    "**Dealer** has more, you have lost!",
+    "The **Dealer** has Blackjack!",
+    "Blackjack",
+    "Beat the **Dealer** and get x2 of your bet!\nHow many do you want to play for?",
+    "Dealer",
+    "Play the Blackjack"
 }
 
 export default {
