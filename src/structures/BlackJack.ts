@@ -41,7 +41,7 @@ export class BlackJack extends Cards {
         var card = this._randomCard();
         while (this.allCards.includes(card) || (this[this.step].size === 1 && card.card.interface === "T")) card = this._randomCard();
         if (card.card.interface === "T") {
-            if (this[this.step].size > 10) {
+            if (this.sum() > 10) {
                 card.card.number = 1
             } else {
                 card.card.number = 11
