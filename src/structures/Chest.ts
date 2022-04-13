@@ -203,7 +203,7 @@ export class Chest<K, V> extends Map<K, V> {
      */
     public getOrCreate(key: K, newValue?: V): V | undefined {
         if (this.has(key)) return this.get(key);
-        if (!!!+newValue) {
+        if (newValue === undefined) {
             return undefined
         }
         this.set(key, newValue);

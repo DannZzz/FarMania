@@ -265,7 +265,7 @@ export class InterfaceEdition<T extends MessageEmbed> {
             const buttons = sliced.filter(c => c.type === "BUTTON");
             const menus = sliced.filter(c => c.type === "SELECT_MENU");
             if (buttons?.length > 0) rows.push(new MessageActionRow().addComponents(buttons))
-            if (menus?.length > 0) rows.push(new MessageActionRow().addComponents(menus))
+            if (menus?.length > 0) rows.push(...menus.map(menu => new MessageActionRow().addComponents(menu)))
         }
         return rows;
     }

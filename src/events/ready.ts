@@ -4,6 +4,7 @@ import { findOrCreateOne } from "../database/db";
 import { Currency } from "../docs/currency/Main";
 import { runReputationRewards } from "../structures/DailyRewardsForTopers";
 import { Event, EventRunOptions } from "../structures/Event";
+import { RouletteMenu } from "../structures/Roulette/RouletteMenu";
 
 export default class Ready extends Event {
     constructor () {
@@ -28,5 +29,8 @@ export default class Ready extends Event {
         runReputationRewards()
         setInterval(change, 60 * 1000)
         console.log(client.user.tag + " - is ready!")
+
+        const rouletteMsg = await (new RouletteMenu(client)).getMessage()
+        // console.log("RouletteMsgId:" + rouletteMsg.id)
     }
 }

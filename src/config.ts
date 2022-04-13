@@ -31,6 +31,12 @@ export const DELETE_TIMEOUT_MESSAGES: number = 5000; // deletes answers (message
 
 export const OneDay: number = 86400000; // One day in milliseconds
 
+/**
+ * [ ServerId, ChannelId ]
+ */
+export const RouletteChannel: [string, string] = ["839462072970641419", "963739161016295474"];
+export const RouletteGameDuration: number = 20 * 1000
+
 export const REPUTATION_REWARDS = [ // Daily toper's rewards
     +process.env.REPUTATION_REWARDS_0 || 1000,
     +process.env.REPUTATION_REWARDS_1 || 500,
@@ -95,6 +101,7 @@ export const DANN_SERVER: string = process.env.DANN_SERVER = "https://discord.gg
 
 export const SlotsBets: number[] = [5, 25, 100, 250];
 export const BlackJackBets: number[] = [5, 25, 100, 250]
+export const RouletteBets: number[] = [5, 25, 100, 250, 1000]
 export const ONE_CHIP_IN_DOLLARS: number = 25;
 
 // ---------------------- CREDITS ----------------------
