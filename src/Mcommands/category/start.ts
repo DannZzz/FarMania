@@ -9,7 +9,7 @@ import { MessageCommand, MessageCommandRunOptions } from "../../structures/Messa
 import { stripIndents } from "common-tags";
 import { Currency, CurrencyType } from "../../docs/currency/Main";
 import { calculateSpace, costForSpaceNextLevel } from "../../docs/levels/space";
-import { DailyGiftsAdding, DELETE_TIMEOUT_MESSAGES, DEVELOPER_ID, EMAIL, UNLOCK_TRANSLATION_LEVEL, OneDay, Rewards, SLOTS_JACKPOT_BOOST, SPACE_FOR_ONE_LEVEL, DANN_SERVER, SUPPORT_SERVER, SUCCESS_EMOJI, BlackJackBets } from "../../config";
+import { DailyGiftsAdding, DELETE_TIMEOUT_MESSAGES, DEVELOPER_ID, EMAIL, UNLOCK_TRANSLATION_LEVEL, OneDay, Rewards, SLOTS_JACKPOT_BOOST, SPACE_FOR_ONE_LEVEL, DANN_SERVER, SUPPORT_SERVER, SUCCESS_EMOJI, BlackJackBets, RouletteChannel } from "../../config";
 import { ShopInterface } from "../../structures/ShopInterface";
 import { ServerSettings } from "../../structures/ServerSettings";
 import { Rate } from "../../structures/Rate";
@@ -28,6 +28,7 @@ import { Achievements, findAchievement, updateDefault } from "../../docs/levels/
 import { Listener } from "../../structures/Listener";
 import { Animals } from "../../docs/animals/Animals_list";
 import { BlackJack } from "../../structures/BlackJack";
+import { RouletteMenu } from "../../structures/Roulette/RouletteMenu";
 
 const redeemCodeListener = new Set();
 
@@ -379,6 +380,8 @@ export default class Start extends MessageCommand {
                     return Embed(msg).setText(TextExp(70, sd.language)) as MessageEmbed;
                 },
                 buttons: async () => {
+                    const msgId = await (new RouletteMenu(client)).getMessage()
+                    const rouletteUrl = `https://canary.discord.com/channels/${RouletteChannel[0]}/${RouletteChannel[1]}/${msgId.id}`
                     return [
                         {
                             button: new MessageButton()
@@ -612,6 +615,13 @@ export default class Start extends MessageCommand {
                                     }
                                 }
                             }
+                        },
+                        {
+                            button: new MessageButton()
+                                .setURL(rouletteUrl)
+                                .setStyle("LINK")
+                                .setLabel(TextExp(166, sd.language)),
+                            async action() {}
                         }
                     ]
                 }
