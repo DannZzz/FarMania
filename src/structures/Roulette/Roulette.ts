@@ -18,10 +18,10 @@ export class Roulette {
 
     addUser(player: Player) {
         RouletteListener.set(this.channelId, [...this.getChannel(), player])
+        // console.log("add user: " + RouletteListener.first()[0].betType)
     }
 
     clear() {
-        const b = this.getChannel();
         RouletteListener.set(this.channelId, []);
     }
 
@@ -42,7 +42,8 @@ export class Roulette {
      * @returns {Player[]} Array of users
      */
     filter(betType: RouletteBet): Player[] {
-        return this.players.filter(player => player.betType === betType)
+        return this.players.filter(player => player.betType == betType || Roulette.arraysEqual(player.betType as any[], betType as any[]))
+       
     }
     
     private getChannel (channelId: ChannelResolvable = this.channelId, players: Player[] = []) {
@@ -85,6 +86,17 @@ export class Roulette {
             })()
         }
     }
+
+    static arraysEqual(a: any[], b: any[]): boolean {
+        if (!Array.isArray(a) || !Array.isArray(b)) return false
+        if (a === b) return true;
+        if (a == null || b == null) return false;
+        if (a.length !== b.length) return false;
+        for (var i = 0; i < a.length; ++i) {
+          if (a[i] !== b[i]) return false;
+        }
+        return true;
+      }
     
 }
 

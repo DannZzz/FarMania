@@ -103,7 +103,7 @@ export class RouletteMenu {
                 // console.log("timed out")
                 const r = new Roulette(RouletteChannel[1]);
                 const win = Roulette.randomWin();
-
+                // console.log("win range: " +  win.range)
                 const arr: { id: string, reward: number }[] = [];
                 for (let type in win) {
                     const value = win[type] as RouletteBet;
@@ -111,32 +111,12 @@ export class RouletteMenu {
                         const winners = r.filter(value).map(player => {
                             var reward = player.bet
 
-                            switch (player.betType) {
-                                case "red":
-                                    reward *= 2;
-                                    break;
-                                case "black":
-                                    reward *= 2;
-                                    break;
-                                case "even":
-                                    reward *= 2;
-                                    break;
-                                case "odd":
-                                    reward *= 2;
-                                    break;
-                                case [1, 12]:
-                                    reward *= 3;
-                                    break;
-                                case [13, 24]:
-                                    reward *= 3;
-                                    break;
-                                case [25, 36]:
-                                    reward *= 3;
-                                    break;
-                                default:
-                                    reward *= 36;
-                                    break;
-
+                            if ((["red", "black", "odd", "even"] as RouletteBet[]).includes(player.betType)) {
+                                reward *= 2;
+                            } else if (Array.isArray(player.betType)) {
+                                reward *= 3;
+                            } else {
+                                reward *= 36;
                             }
 
                             return {
