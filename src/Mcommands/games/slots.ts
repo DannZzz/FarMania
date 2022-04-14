@@ -95,7 +95,6 @@ async function createSlotBet(id: string, type: "dollars" | "chips" , bet: number
         changeMoney(type, id, -bet),
         changeXp(id, bet),
         new Listener(id, data).update("Chips", type === "chips" ? 1 : 0),
-        models.bot.updateOne({_id: "main"}, {$inc: {slotJackpot: Math.ceil((type === "chips" ?  ONE_CHIP_IN_DOLLARS : bet) * (SLOTS_JACKPOT_BOOST || 1))}})
     ])
     return true;
 }

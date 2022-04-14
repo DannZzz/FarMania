@@ -604,10 +604,7 @@ export default class Start extends MessageCommand {
                                                     const fn = await command.execute({client, msg, args, methods, sd, prefix});
                                                     const us = await findOrCreateOne("users", {findOption: msg.author.id});
                                                     if (us.dollars < bet) return Embed(msg).setError(`${TextExp(25, sd.language)} ${Currency.dollars.emoji}`).send(DELETE_TIMEOUT_MESSAGES);
-                                                    await Promise.all([
-                                                        changeMoney("dollars", msg.author.id, -bet),
-                                                        models.bot.updateOne({_id: "main"}, {$inc: {slotJackpot: bet}})
-                                                    ])
+                                                    await changeMoney("dollars", msg.author.id, -bet)
                                                     fn(bet);
                                                 }
                                             }

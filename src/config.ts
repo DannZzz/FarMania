@@ -31,10 +31,12 @@ export const DELETE_TIMEOUT_MESSAGES: number = 5000; // deletes answers (message
 
 export const OneDay: number = 86400000; // One day in milliseconds
 
+export const JACKPOT_ADD_TIME: number = +process.env.JACKPOT_ADD_TIME || (1.5 * 60 * 1000)
+
 /**
  * [ ServerId, ChannelId ]
  */
-export const RouletteChannel: [string, string] = ["839462072970641419", "963739161016295474"]// ["839462072970641419", "964098877366108251"];
+export const RouletteChannel: [string, string] = ["839462072970641419", "963739161016295474"] //["839462072970641419", "964098877366108251"];
 export const RouletteGameDuration: number = 2 * 60 * 1000
 
 export const REPUTATION_REWARDS = [ // Daily toper's rewards

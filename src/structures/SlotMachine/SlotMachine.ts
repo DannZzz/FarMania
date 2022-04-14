@@ -1,4 +1,5 @@
 import { SlotSymbol, SlotSymbols } from "./Symbols";
+import { Util } from "client-discord";
 
 export class SlotMachine {
     readonly symbols = SlotSymbols;
@@ -115,7 +116,13 @@ export class SlotMachine {
     }
 
     private randomSymbol() {
-        return this.symbols[Math.floor(Math.random() * this.symbols.length)]
+        const randomNum = Util.random(1, 100);
+        const valids = this.symbols.filter(s => randomNum <= s.chance).sort((a, b) => a.chance - b.chance);
+        console.log("numb " + randomNum + "\n" + valids)
+        const a = valids.every(a => a.chance === valids[0].chance);
+        
+        const b = a ? valids[Math.floor(Math.random() * valids.length)] : valids[0];
+        return b
     }
 
 }
