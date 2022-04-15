@@ -33,6 +33,8 @@ export const OneDay: number = 86400000; // One day in milliseconds
 
 export const JACKPOT_ADD_TIME: number = +process.env.JACKPOT_ADD_TIME || (1.5 * 60 * 1000)
 
+export const UPGRADE_STORAGE_X: number[] = [1, 5, 20, 100]
+
 /**
  * [ ServerId, ChannelId ]
  */
