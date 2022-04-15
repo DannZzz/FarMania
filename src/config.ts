@@ -61,7 +61,7 @@ export const PAGINATION_EMOJIS: EmojiResolvable[] = ["⏮", "⏪", "⏩", "⏭"]
 
 export const PREFIX: string = process.env.PREFIX || "."; // default prefix
 export const colors: {[k: string]: ColorResolvable} = { // colors
-    main: "#F1BA6D",
+    main: "#cea9df",
     error: "#FF5440",
     success: "#7A912A",
     none: "#2f3136",
