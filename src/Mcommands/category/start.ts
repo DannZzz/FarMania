@@ -9,7 +9,7 @@ import { MessageCommand, MessageCommandRunOptions } from "../../structures/Messa
 import { stripIndents } from "common-tags";
 import { Currency, CurrencyType } from "../../docs/currency/Main";
 import { calculateSpace, costForSpaceNextLevel } from "../../docs/levels/space";
-import { DailyGiftsAdding, DELETE_TIMEOUT_MESSAGES, DEVELOPER_ID, EMAIL, UNLOCK_TRANSLATION_LEVEL, OneDay, Rewards, SLOTS_JACKPOT_BOOST, SPACE_FOR_ONE_LEVEL, DANN_SERVER, SUPPORT_SERVER, SUCCESS_EMOJI, BlackJackBets, RouletteChannel } from "../../config";
+import { DailyGiftsAdding, DELETE_TIMEOUT_MESSAGES, DEVELOPER_ID, EMAIL, UNLOCK_TRANSLATION_LEVEL, OneDay, Rewards, SLOTS_JACKPOT_BOOST, SPACE_FOR_ONE_LEVEL, DANN_SERVER, SUPPORT_SERVER, SUCCESS_EMOJI, BlackJackBets, RouletteChannel, UPGRADE_STORAGE_X } from "../../config";
 import { ShopInterface } from "../../structures/ShopInterface";
 import { ServerSettings } from "../../structures/ServerSettings";
 import { Rate } from "../../structures/Rate";
@@ -56,9 +56,9 @@ export default class Start extends MessageCommand {
                 buttonType: "PRIMARY",
                 emoji: "📃",
                 async embed() {
-                    const g = await findOrCreateOne("games", {findOption: msg.author.id});
+                    const g = await findOrCreateOne("games", { findOption: msg.author.id });
                     const space = calculateSpace(g.spaceLevel, g.animals);
-                    const user = await findOrCreateOne("users", {findOption: msg.author.id});
+                    const user = await findOrCreateOne("users", { findOption: msg.author.id });
                     const level = findLevel(user.xp || 0);
                     return Embed(msg).setText(stripIndents`
                     ${await FarmInterface.moneyInterface(msg.author.id, true)}
@@ -69,8 +69,8 @@ export default class Start extends MessageCommand {
                     ${TextExp(128, sd.language)} \`${client.util.formatNumber(Math.round(g.animals.map(obj => obj?.count || 0).reduce((a, v) => a + v, 0)))}\`
                     `).setThumbnail("attachment://star.png")
                 },
-                async attachments ( ) {
-                    const user = await findOrCreateOne("users", {findOption: msg.author.id});
+                async attachments() {
+                    const user = await findOrCreateOne("users", { findOption: msg.author.id });
                     const level = findLevel(user.xp || 0);
                     const card = new StarImage(level.currentLevel);
                     return [await card.build()];
@@ -86,7 +86,7 @@ export default class Start extends MessageCommand {
                                 if (!(await checkLevel(msg.author.id, UNLOCK_TRANSLATION_LEVEL))) return Embed(msg).setError(`${TextExp(130, sd.language)} **${UNLOCK_TRANSLATION_LEVEL}**`).send(DELETE_TIMEOUT_MESSAGES);
 
                                 const cmd: MessageCommand = client.messageCommands.get("translate-money");
-                                cmd.execute({client, msg, args: [], prefix, sd, methods});
+                                cmd.execute({ client, msg, args: [], prefix, sd, methods });
                             }
                         }
                     ]
@@ -132,92 +132,34 @@ export default class Start extends MessageCommand {
                                         ${await FarmInterface.moneyInterface(msg.author.id)}
                                         
                                         ${TextExp(16, sd.language)} ${client.util.formatNumber(data.spaceLevel || 1)} + 1
-                                        ${TextExp(17, sd.language)}: ${(data.spaceLevel || 1) * SPACE_FOR_ONE_LEVEL} + ${SPACE_FOR_ONE_LEVEL}
-                                        ${TextExp(18, sd.language)} ${Currency.coins.emoji}\`${client.util.formatNumber(obj.coins)}\` ${TextExp(19, sd.language)} ${Currency.dollars.emoji}\`${client.util.formatNumber(obj.dollars)}\`
+                                        ${TextExp(17, sd.language)}: ${client.util.formatNumber((data.spaceLevel || 1) * SPACE_FOR_ONE_LEVEL)} + ${SPACE_FOR_ONE_LEVEL}
+                                        ${UPGRADE_STORAGE_X.map(number => `${TextExp(18, sd.language)} \`x${number}\` — ${Currency.coins.emoji}\`${client.util.formatNumber(obj.coins * number)}\``).join("\n")}
                                         `).setTitle(TextExp(13, sd.language))
                                     },
-                                    buttons: async () => [
-                                        {
-                                            button: new MessageButton()
-                                                .setCustomId("levelUpSpaceCoin")
-                                                .setEmoji(Currency.coins.emoji)
-                                                .setLabel(TextExp(14, sd.language))
-                                                .setStyle("SECONDARY"),
-                                            async action() {
-                                                const myData = await findOrCreateOne("users", { findOption: msg.author.id });
-                                                const myDataGame = await findOrCreateOne("games", { findOption: msg.author.id });
-                                                const cost = costForSpaceNextLevel(myDataGame.spaceLevel || 1).coins;
-                                                if (myData.coins < cost) {
-                                                    return Embed(msg).setError(TextExp(6, sd.language)).send(DELETE_TIMEOUT_MESSAGES);
+                                    buttons: async () => {
+                                        return UPGRADE_STORAGE_X.map(number => {
+                                            return {
+                                                button: new MessageButton()
+                                                    .setCustomId("levelUpSpaceCoin-"+number)
+                                                    .setEmoji(Currency.coins.emoji)
+                                                    .setLabel(`x${client.util.formatNumber(number)}`)
+                                                    .setStyle("SECONDARY"),
+                                                async action() {
+                                                    const myData = await findOrCreateOne("users", { findOption: msg.author.id });
+                                                    const myDataGame = await findOrCreateOne("games", { findOption: msg.author.id });
+                                                    const cost = costForSpaceNextLevel(myDataGame.spaceLevel || 1).coins * number;
+                                                    if (myData.coins < cost) {
+                                                        return Embed(msg).setError(TextExp(6, sd.language)).send(DELETE_TIMEOUT_MESSAGES);
+                                                    }
+                                                    await Promise.all([
+                                                        models.games.updateOne({ _id: msg.author.id }, { $inc: { spaceLevel: number } }),
+                                                        changeMoney("coins", msg.author.id, -cost)
+                                                    ])
+                                                    return Embed(msg).setSuccess(TextExp(15, sd.language)).send(DELETE_TIMEOUT_MESSAGES)
                                                 }
-                                                await Promise.all([
-                                                    models.games.updateOne({ _id: msg.author.id }, { $inc: { spaceLevel: 1 } }),
-                                                    changeMoney("coins", msg.author.id, -cost)
-                                                ])
-                                                return Embed(msg).setSuccess(TextExp(15, sd.language)).send(DELETE_TIMEOUT_MESSAGES)
                                             }
-                                        },
-                                        {
-                                            button: new MessageButton()
-                                                .setCustomId("levelUpSpaceDollar")
-                                                .setEmoji(Currency.dollars.emoji)
-                                                .setLabel(TextExp(14, sd.language))
-                                                .setStyle("SECONDARY"),
-                                            async action() {
-                                                const myData = await findOrCreateOne("users", { findOption: msg.author.id });
-                                                const myDataGame = await findOrCreateOne("games", { findOption: msg.author.id });
-                                                const cost = costForSpaceNextLevel(myDataGame.spaceLevel || 1).dollars;
-                                                if (myData.dollars < cost) {
-                                                    return Embed(msg).setError(TextExp(6, sd.language)).send(DELETE_TIMEOUT_MESSAGES);
-                                                }
-                                                await Promise.all([
-                                                    models.games.updateOne({ _id: msg.author.id }, { $inc: { spaceLevel: 1 } }),
-                                                    changeMoney("dollars", msg.author.id, -cost)
-                                                ])
-                                                return Embed(msg).setSuccess(TextExp(15, sd.language)).send(DELETE_TIMEOUT_MESSAGES)
-                                            }
-                                        },
-                                        {
-                                            button: new MessageButton()
-                                                .setCustomId("levelUpSpaceCoin5X")
-                                                .setEmoji(Currency.coins.emoji)
-                                                .setLabel(TextExp(14, sd.language) + " x5")
-                                                .setStyle("SECONDARY"),
-                                            async action() {
-                                                const myData = await findOrCreateOne("users", { findOption: msg.author.id });
-                                                const myDataGame = await findOrCreateOne("games", { findOption: msg.author.id });
-                                                const cost = costForSpaceNextLevel(myDataGame.spaceLevel || 1).coins * 5;
-                                                if (myData.coins < cost) {
-                                                    return Embed(msg).setError(TextExp(6, sd.language)).send(DELETE_TIMEOUT_MESSAGES);
-                                                }
-                                                await Promise.all([
-                                                    models.games.updateOne({ _id: msg.author.id }, { $inc: { spaceLevel: 5 } }),
-                                                    changeMoney("coins", msg.author.id, -cost)
-                                                ])
-                                                return Embed(msg).setSuccess(TextExp(15, sd.language)).send(DELETE_TIMEOUT_MESSAGES)
-                                            }
-                                        },
-                                        {
-                                            button: new MessageButton()
-                                                .setCustomId("levelUpSpaceDollar5X")
-                                                .setEmoji(Currency.dollars.emoji)
-                                                .setLabel(TextExp(14, sd.language) + " x5")
-                                                .setStyle("SECONDARY"),
-                                            async action() {
-                                                const myData = await findOrCreateOne("users", { findOption: msg.author.id });
-                                                const myDataGame = await findOrCreateOne("games", { findOption: msg.author.id });
-                                                const cost = costForSpaceNextLevel(myDataGame.spaceLevel || 1).dollars * 5;
-                                                if (myData.dollars < cost) {
-                                                    return Embed(msg).setError(TextExp(6, sd.language)).send(DELETE_TIMEOUT_MESSAGES);
-                                                }
-                                                await Promise.all([
-                                                    models.games.updateOne({ _id: msg.author.id }, { $inc: { spaceLevel: 5 } }),
-                                                    changeMoney("dollars", msg.author.id, -cost)
-                                                ])
-                                                return Embed(msg).setSuccess(TextExp(15, sd.language)).send(DELETE_TIMEOUT_MESSAGES)
-                                            }
-                                        }
-                                    ],
+                                        })
+                                    },
                                 } as Page<MessageEmbed>
                             }
                         }
@@ -315,7 +257,7 @@ export default class Start extends MessageCommand {
                                     async embed() {
                                         await updateDefault(msg.author.id);
 
-                                        const _Listener = new Listener(msg.author.id, await findOrCreateOne("users", {findOption: msg.author.id}));
+                                        const _Listener = new Listener(msg.author.id, await findOrCreateOne("users", { findOption: msg.author.id }));
                                         // console.log(_Listener);
 
                                         const texts: string[] = [];
@@ -326,19 +268,19 @@ export default class Start extends MessageCommand {
                                             const ach = a.list[level] ? a.list[level] : a.list.at(-1);
 
                                             const emoji = ach.reward in Currency ? Currency[ach.reward].emoji : Animals[ach.reward].emoji;
-                                            
+
                                             texts.push(
                                                 stripIndents`
-                                                **${TextExp(151, sd.language)} ${ level !== a.list.length ? `${client.util.formatNumber(prog)}/${client.util.formatNumber(ach.need)}` : SUCCESS_EMOJI}**
+                                                **${TextExp(151, sd.language)} ${level !== a.list.length ? `${client.util.formatNumber(prog)}/${client.util.formatNumber(ach.need)}` : SUCCESS_EMOJI}**
                                                 ${TextExp(a.textIndex, sd.language)} ${a.emoji} \`${client.util.formatNumber(ach.need)}\`
                                                 ${TextExp(152, sd.language)}: ${emoji}\`${client.util.formatNumber(ach.rewardAmount)}\`
                                                 `
                                             )
                                         }
-                                        
+
                                         return Embed(msg)
                                             .setTitle(`🌟 | ${TextExp(150, sd.language)}`)
-                                            .setText(await FarmInterface.moneyInterface(msg.author.id)+ "\n\n" + texts.join("\n\n"))
+                                            .setText(await FarmInterface.moneyInterface(msg.author.id) + "\n\n" + texts.join("\n\n"))
                                     },
                                     buttons: async () => {
                                         const can = await Functions.checkAllAchievements(msg.author.id)
@@ -350,7 +292,7 @@ export default class Start extends MessageCommand {
                                                     .setStyle(can ? "SUCCESS" : "DANGER")
                                                     .setDisabled(can ? false : true),
                                                 async action() {
-                                                    const data = await findOrCreateOne("users", {findOption: msg.author.id})
+                                                    const data = await findOrCreateOne("users", { findOption: msg.author.id })
                                                     const l = new Listener(msg.author.id, data);
 
                                                     for (let ach of Achievements) {
@@ -493,7 +435,7 @@ export default class Start extends MessageCommand {
                                                     .setCustomId("PLAYSLOTSMACHINE")
                                                     .setLabel(TextExp(96, sd.language))
                                                     .setStyle("SUCCESS"),
-                                                async action () {
+                                                async action() {
                                                     const command = client.messageCommands.get("slots") as MessageCommand;
                                                     command.execute({ client, msg, args: [], methods, prefix, sd });
                                                 }
@@ -574,7 +516,7 @@ export default class Start extends MessageCommand {
                                                     .setLabel(TextExp(88, sd.language)),
                                                 async action() {
                                                     const command = client.messageCommands.get("card-game") as MessageCommand;
-                                                    command.execute({client, msg, args, methods, sd, prefix});
+                                                    command.execute({ client, msg, args, methods, sd, prefix });
                                                 }
                                             }
                                         ]
@@ -588,7 +530,7 @@ export default class Start extends MessageCommand {
                                 .setStyle("SECONDARY")
                                 .setLabel(TextExp(162, sd.language)),
                             nextPage: true,
-                            async action (): Promise<Page<MessageEmbed>> {
+                            async action(): Promise<Page<MessageEmbed>> {
                                 return {
                                     async embed() {
                                         return Embed(msg).setText(await FarmInterface.moneyInterface(msg.author.id) + "\n\n" + TextExp(163, sd.language))
@@ -601,8 +543,8 @@ export default class Start extends MessageCommand {
                                                 async action() {
                                                     if (BlackJack.hasUser(msg.author.id)) return;
                                                     const command = client.messageCommands.get("blackjack") as MessageCommand;
-                                                    const fn = await command.execute({client, msg, args, methods, sd, prefix});
-                                                    const us = await findOrCreateOne("users", {findOption: msg.author.id});
+                                                    const fn = await command.execute({ client, msg, args, methods, sd, prefix });
+                                                    const us = await findOrCreateOne("users", { findOption: msg.author.id });
                                                     if (us.dollars < bet) return Embed(msg).setError(`${TextExp(25, sd.language)} ${Currency.dollars.emoji}`).send(DELETE_TIMEOUT_MESSAGES);
                                                     await changeMoney("dollars", msg.author.id, -bet)
                                                     fn(bet);
@@ -618,7 +560,7 @@ export default class Start extends MessageCommand {
                                 .setURL(rouletteUrl)
                                 .setStyle("LINK")
                                 .setLabel(TextExp(166, sd.language)),
-                            async action() {}
+                            async action() { }
                         }
                     ]
                 }
@@ -647,7 +589,7 @@ export default class Start extends MessageCommand {
 
                         ${TextExp(113, sd.language)}
                         `) as MessageEmbed;
-                        
+
                 },
                 buttons: async () => {
                     return [
@@ -660,14 +602,14 @@ export default class Start extends MessageCommand {
                                 if (redeemCodeListener.has(msg.author.id)) return;
                                 redeemCodeListener.add(msg.author.id);
                                 const m = await Embed(msg).setText(TextExp(116, sd.language)).send();
-                                const c = new MessageCollectorExp(msg.channel, {filter: [msg.author.id], time: 30000});
+                                const c = new MessageCollectorExp(msg.channel, { filter: [msg.author.id], time: 30000 });
                                 let b = false;
                                 c.end(() => {
                                     redeemCodeListener.delete(msg.author.id);
                                     m.delete();
                                     if (!b) return Embed(msg).setError(TextExp(50, sd.language)).send(DELETE_TIMEOUT_MESSAGES);
                                 })
-                                
+
                                 c.on(undefined, async (m) => {
                                     if (m.content) {
                                         b = true;
