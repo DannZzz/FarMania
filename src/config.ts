@@ -39,7 +39,7 @@ export const UPGRADE_STORAGE_X: number[] = [1, 5, 20, 100]
  * [ ServerId, ChannelId ]
  */
 export const RouletteChannel: [string, string] = ["839462072970641419", "963739161016295474"] //["839462072970641419", "964098877366108251"];
-export const RouletteGameDuration: number = 2 * 60 * 1000
+export const RouletteGameDuration: number = 1 * 60 * 1000
 
 export const REPUTATION_REWARDS = [ // Daily toper's rewards
     +process.env.REPUTATION_REWARDS_0 || 1000,
