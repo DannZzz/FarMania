@@ -53,6 +53,12 @@ export const UNLOCK_TRANSLATION_LEVEL: number = (+process.env.UNLOCK_TRANSLATION
 
 export const TRANSLATION_DEFAULT: number = ((+process.env.TRANSLATION_DEFAULT) || 300) - UNLOCK_TRANSLATION_LEVEL * TRANSLATION_ADD_PER_LEVEL
 
+export const AIRPLANE_TIMEOUTS = {
+    loop: 7 * 1000,
+    collecting: 28 * 1000,
+    ended: 14 * 1000
+}
+
 export const TicTacToeCooldown: number = 1000 * 60 * 20; // Cooldown after playing ttt with real member
 
 export const ERROR_EMOJI: EmojiResolvable = "<:cancel1:926005208176271422>"; // error emoji

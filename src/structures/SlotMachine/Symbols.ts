@@ -24,6 +24,7 @@ export class SlotSymbol {
 }
 
 export const SlotSymbols: SlotSymbol[] = [
+    new SlotSymbol("🍎", 3, 100),
     new SlotSymbol("🍌", 3, 100), // 2
     new SlotSymbol("🍉", 3, 100), // 2
     new SlotSymbol("🍇", 4, 50), // 3

@@ -165,7 +165,10 @@ enum EnglishData {
     "Beat the **Dealer** and get x2 of your bet!\nHow many do you want to play for?",
     "Dealer",
     "Play the Blackjack",
-    "Roulette"
+    "Roulette",
+    "AirPlane",
+    "Go to the",
+    "server"
 }
 
 export default {

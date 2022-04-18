@@ -140,7 +140,7 @@ export default class Start extends MessageCommand {
                                         return UPGRADE_STORAGE_X.map(number => {
                                             return {
                                                 button: new MessageButton()
-                                                    .setCustomId("levelUpSpaceCoin-"+number)
+                                                    .setCustomId("levelUpSpaceCoin-" + number)
                                                     .setEmoji(Currency.coins.emoji)
                                                     .setLabel(`x${client.util.formatNumber(number)}`)
                                                     .setStyle("SECONDARY"),
@@ -425,7 +425,7 @@ export default class Start extends MessageCommand {
                             async action(): Promise<Page<MessageEmbed>> {
                                 return {
                                     async embed() {
-                                        return Embed(msg).setText(`${await FarmInterface.moneyInterface(msg.author.id, true)}\n\n${await jackpotString(client, sd.language)}\n\n${TextExp(123, sd.language)} \`${Math.round(SLOTS_JACKPOT_BOOST / 1 * 100)}%\` ${TextExp(124, sd.language)}\n\n`).setTitle(`🎰 | ${TextExp(95, sd.language)}`) as MessageEmbed;
+                                        return Embed(msg).setText(`${await FarmInterface.moneyInterface(msg.author.id, true)}\n\n${await jackpotString(client, sd.language)}`).setTitle(`🎰 | ${TextExp(95, sd.language)}`) as MessageEmbed;
                                     },
                                     type: "Group",
                                     async buttons() {
@@ -557,10 +557,34 @@ export default class Start extends MessageCommand {
                         },
                         {
                             button: new MessageButton()
-                                .setURL(rouletteUrl)
-                                .setStyle("LINK")
+                                .setCustomId("GETTOROULETTE")
+                                .setStyle("SECONDARY")
                                 .setLabel(TextExp(166, sd.language)),
-                            async action() { }
+                            nextPage: true,
+                            async action(): Promise<Page<MessageEmbed>> {
+                                return {
+                                    async embed() {
+                                        return Embed(msg).setTitle(TextExp(166, sd.language)).setText(`${TextExp(168, sd.language)} **[${TextExp(169, sd.language)}](${rouletteUrl})**!`);
+                                    },
+                                    type: "Group"
+                                }
+                            }
+                        },
+                        {
+                            button: new MessageButton()
+                                .setCustomId("GETTOAIRPLANE")
+                                .setStyle("SECONDARY")
+                                .setEmoji("✈")
+                                .setLabel(TextExp(167, sd.language)),
+                            nextPage: true,
+                            async action(): Promise<Page<MessageEmbed>> {
+                                return {
+                                    async embed() {
+                                        return Embed(msg).setTitle(TextExp(167, sd.language)).setText(`${TextExp(168, sd.language)} **[${TextExp(169, sd.language)}](${DANN_SERVER})**!`);
+                                    },
+                                    type: "Group"
+                                }
+                            }
                         }
                     ]
                 }

@@ -9,6 +9,7 @@ export interface BotModel {
     lastWinningJackpot: { type: number, default: null } & number;
     winningLines: { type: number, default: null } & number;
     rouletteMessage: { type: String, default: null } & string;
+    airplanes: { type: Array<{guild: string, channel: string, message: string}>, default: [] } & Array<{guild: string, channel: string, message: string}>
 }
 
 export const BotModel = mongoose.model("bot", new mongoose.Schema<BotModel>({
@@ -19,4 +20,5 @@ export const BotModel = mongoose.model("bot", new mongoose.Schema<BotModel>({
     lastWinningJackpot: { type: Number, default: null },
     winningLines: { type: Number, default: null },
     reputationRewardsDate: { type: Date, default: null },
+    airplanes: { type: Array, default: [] },
 }))
